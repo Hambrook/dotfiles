@@ -4,11 +4,9 @@ Various Bash functions, aliases and other things that are useful to me and mine.
 
 ### Installation
 
-Open your `.bashrc` or `.bash_aliases` file and tell it to include the `include` file...
+Symlink or source the `dotfiles/home/.bashrc` file to your `.bashrc` file.
 
-`. ~/path/to/bash-things/include`
-
-And set some vars in `bash_0vars` if you want.
+Optionally create and set some vars in `~/.variables` if you want.
 
 ### Help
 
