@@ -1,0 +1,48 @@
+###
+###=== TEMPLATES ================================================================
+
+### template         List templates or apply a template to current dir
+#
+##   ~ template
+##   ~ template [<template-name>]
+##   ~ template [<template-name>] [<new-name>]
+##   ~ template ht-as
+##   ~ template ht-as .htaccess-new
+template() {
+	echo ""
+	local found=false
+
+	# If they named a template, lets look for it
+	if [[ $1 ]]; then
+		shopt -s nullglob
+		for f in $DOTFILESHOME/bash/templates/$1\ *
+		do
+			# Do the thing with the thing
+			local target=$(echo "${f}" | sed -r 's/.* (.*)$/\1/g')
+		    cp -R "${f}" "$(pwd)/$target"
+		    echo "Copied: ${f}"
+
+		    local found=true
+		done
+		shopt -u nullglob
+
+		# Well, that didn't work out, did it
+		if [[ $found == false ]]; then
+			echo -e "Template not found. Try one of these...\n"
+		fi
+	fi
+
+	if [[ $found == false ]]; then
+		if [[ ! $1 ]]; then
+			echo -e "Available templates...\n"
+		fi
+
+		# Show them what we've got
+		for f in $DOTFILESHOME/bash/templates/*
+		do
+		    echo $(echo "${f}" | sed -r 's/\/?[^\/]+\///g')
+		done
+	fi
+
+	echo ""
+}

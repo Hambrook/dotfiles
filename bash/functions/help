@@ -1,0 +1,14 @@
+bashhelp() {
+	shopt -s nullglob
+	local token="#"
+	local token="${token}#"
+	if ! [ $1 ] ; then
+		local token="${token}#"
+	fi
+
+	for f in $( echo "$DOTFILESHOME/bash/functions/${1}*" )
+	do
+	    cat $f | grep "${token}"
+	done
+	shopt -u nullglob
+}

@@ -1,0 +1,20 @@
+###
+###=== RUNAS ====================================================================
+
+#AS WWW-DATA
+### aswww            Run as www-data
+###  + asw
+##   ~ aswww <command>
+##   ~ aswww git pull
+aswww() {
+    sudo -H -u www-data bash -c "${1} ${2} ${3} ${4} ${5} ${6} ${7} ${8}"
+}
+alias asw=aswww
+
+#SYMFONY CONSOLE
+### sc               Run Symfony console command as web user
+##   ~ sc <command>
+##   ~ sc cache:clear
+sc() {
+    sudo -H -u www-data bash -c "php app/console ${1} ${2} ${3} ${4} ${5} ${6} ${7} ${8}"
+}

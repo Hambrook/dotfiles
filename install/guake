@@ -1,0 +1,19 @@
+#!/bin/bash
+
+sudo apt-get install guake
+
+gconftool --type string --set /apps/guake/keybindings/global/show_hide         F9
+gconftool --type string --set /apps/guake/keybindings/local/rename_current_tab F2
+gconftool --type string --set /apps/guake/keybindings/local/close_tab          <Control><Shift>w
+gconftool --type string --set /apps/guake/keybindings/local/switch_tab2        <Primary>F2
+gconftool --type string --set /apps/guake/keybindings/local/previous_tab       <Control>Page_Up
+gconftool --type string --set /apps/guake/keybindings/local/next_tab           <Control>Page_Down
+gconftool --type string --set /apps/guake/keybindings/local/clipboard_copy     <Control><Shift>c
+gconftool --type string --set /apps/guake/keybindings/local/new_tab            <Control><Shift>t
+gconftool --type bool   --set /apps/guake/general/scroll_output                false
+gconftool --type bool   --set /apps/guake/general/scroll_keystroke             true
+gconftool --type bool   --set /apps/guake/general/window_losefocus             false
+gconftool --type int    --set /apps/guake/style/background/transparency        20
+gconftool --type string --set /apps/guake/style/background/color               #000000000000
+gconftool --type string --set /apps/guake/style/font/style                     Hack 10
+gconftool --type string --set /apps/guake/style/font/color                     #ffffffffffff

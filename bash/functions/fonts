@@ -1,0 +1,5 @@
+###
+###=== FONTS ====================================================================
+
+### reloadfonts      Reload font cache
+alias reloadfonts="fc-cache -f -v"

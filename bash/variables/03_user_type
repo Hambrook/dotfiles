@@ -1,0 +1,10 @@
+# http://tldp.org/LDP/abs/html/sample-bashrc.html
+
+# Test user type:
+if [[ ${USER} == "root" ]]; then
+    SU=${Red}           # User is root.
+#elif [[ ${USER} != "$(logname)" ]]; then
+#    SU=${BRed}          # User is not login user.
+else
+    SU=${BGreen}        # User is normal (well ... most of us are).
+fi

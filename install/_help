@@ -1,0 +1,8 @@
+Dump config data using this...
+	gconftool-2  --recursive-list /
+
+Set config using
+	gconftool --type string --set /apps/guake/keybindings/global/show_hide         F9
+
+Available types
+	int|bool|float|string|list|pair

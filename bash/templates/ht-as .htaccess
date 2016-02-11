@@ -1,0 +1,8 @@
+<IfModule mod_rewrite.c>
+	RewriteEngine on
+	RewriteCond %{REQUEST_URI}::$1 ^(.*?/)(.*)::\2$
+	RewriteRule ^(.*)$ - [E=BASE:%1]
+	RewriteCond %{REQUEST_URI}      !^/%{ENV:BASE}html/
+	RewriteCond %{REQUEST_URI}      !^%{ENV:BASE}html/
+	RewriteRule ^(.*)$              %{ENV:BASE}html/$1 [L]
+</IfModule>

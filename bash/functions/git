@@ -1,0 +1,138 @@
+###
+###=== GIT ======================================================================
+
+# GIT
+### git-undo         Undo a commit
+alias git-undo="git reset --soft 'HEAD^'"
+
+### gs               Git status
+alias gs="git status"
+
+### gca              Git commit all
+alias gca="git commit -a"
+
+alias gnc="git update-index --assume-unchanged"
+alias git-push-release="git checkout master; git push origin master --tags; git checkout develop;"
+
+# GIT Up
+
+### gu               Git push
+alias gu="git push"
+
+### gud              Git push develop
+alias gud="gu develop"
+
+### gum              Git push master
+alias gum="gu master"
+
+### gub              Git push all
+alias gub="gu --all"
+
+### gut              Git push tags
+alias gut="gu --tags"
+
+### gua              Git push all and tags
+alias gua="gub && gut"
+
+# GIT Down
+
+### gd               Git pull
+alias gd="git pull"
+
+### gdd              Git pull develop
+alias gdd="gd develop"
+
+### gdm              Git pull master
+alias gdm="gd master"
+
+# GIT Checkout
+
+### gc               Git checkout
+alias gc="git checkout"
+
+### gcd              Git checkout develop
+alias gcd="gc develop"
+
+### gcm              Git checkout master
+alias gcm="gc master"
+
+# GIT Flow
+alias grs="git flow release start"
+alias grf="git flow release finish"
+gitflowrelease() {
+    grs $1 && grf $1
+}
+### gr               Git flow release
+##   ~ gr <version>
+##   ~ gr 1.3.37
+alias gr="gitflowrelease"
+
+
+### gar              Git add recursive by extension
+##   ~ gar [<path/to/sub/>] <ext>
+##   ~ gar templates/ twig
+##   ~ gar twig
+gar() {
+	if [[ $1 ]]; then
+		if [[ $2 ]]; then
+			# If two arguments, assume path and extension
+			local tmpExt="${2}"
+			local tmpPath="${1}"
+		else
+			# If only one argument, assume extension
+			local tmpExt="${1}"
+			local tmpPath="./"
+		fi
+
+		until [ -n $(git add "${tmpPath}*.${tmpExt}") ]; do
+			local tmpPath="${tmpPath}*/"
+		done
+	else
+		# No arguments, all everything here and below
+		git add .
+	fi
+}
+
+
+# Open a repo's BitBucket or GitHub page. append "src" or "commits" etc to jump to sections (tested on BitBucket)
+
+### repo             Open a repo in the browser
+repo() {
+	local giturl=$(git config --get remote.origin.url | sed 's/git@/\/\//g' | sed 's/.git$//' | sed 's/https://g' | sed 's/:/\//g')
+	if [[ $giturl == "" ]]; then
+		echo "Not a git repository or no remote.origin.url is set."
+	else
+		local giturl="http:${giturl}"
+		if [[ $1 ]]; then
+			local giturl="${giturl}/$1"
+		fi
+		echo $giturl
+		google-chrome $giturl
+	fi
+}
+
+### repohome         Go up to the repo root dir
+function repohome() {
+    old_pwd="$PWD";
+    while [ 1 ]; do
+        cd ..
+        if [ "$PWD" == "/" ]; then
+            cd "$old_pwd"
+            echo "No repository found, returned to $old_pwd"
+            return 1
+        fi
+        for repo in ".git" ".hg"; do
+            if [ -d "$repo" ]; then
+                echo "Found $repo at $PWD"
+                return 0;
+            fi
+        done
+    done
+}
+
+###  + repoh
+alias repoh="repohome"
+
+get_git_branch_for_prompt() {
+     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+}

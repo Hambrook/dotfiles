@@ -1,0 +1,55 @@
+###
+###=== FILES ====================================================================
+
+# CLEAN OUT THE TRASH
+### cleanup          Clean up junk files from Windows, Mac and Linux
+alias cleanup="find . -name '*.DS_Store' -type f -delete && find . -name '*_MACOSX' -type d -delete"
+
+# CREATE DATA URL FROM FILE
+### dataurl          Convert a file into a data url
+dataurl() {
+	local mimeType=$(file -b --mime-type "${1}")
+	if [[ $mimeType == text/* ]]; then
+		mimeType="${mimeType};charset=utf-8"
+	fi
+	echo "data:${mimeType};base64,$(openssl base64 -in "${1}" | tr -d '\n')"
+}
+
+# RSYNC
+### rs               Rsync with default flags
+##   ~ rs <source> <destination>
+##   ~ rs user@server:path/here/ local/path
+alias rs="rsync -rtch --delete --force --stats --progress"
+
+# COMPRESSION
+### tarup            Compress a directory to a tar file
+##   ~ tarup <new-file> <spource-dir>
+##   ~ tarup new.tar.gz src/
+alias tarup="tar cvfz"
+
+### untar            Extract a tar file
+##   ~ tarup <file>
+##   ~ tarup file.tar.gz
+alias untar="tar xvfz"
+
+### md2html          Convert all MD files in a directory to HTML
+md2html() {
+	find "${1}" -name "*.md" -type f -exec sh -c 'markdown "${0}" > "${2}${0%.md}.html"' {} \;
+}
+
+#h ttp://tldp.org/LDP/abs/html/sample-bashrc.html
+### swap             Swap two filenames around
+##   ~ swap <file1> <file2>
+##   ~ swap index.php index-old.php
+function swap() {
+	# Swap 2 filenames around, if they exist (from Uzi's bashrc).
+	local TMPFILE=tmp.$$
+
+	[ $# -ne 2 ] && echo "swap: 2 arguments needed" && return 1
+	[ ! -e $1 ] && echo "swap: $1 does not exist" && return 1
+	[ ! -e $2 ] && echo "swap: $2 does not exist" && return 1
+
+	mv "$1" $TMPFILE
+	mv "$2" "$1"
+	mv $TMPFILE "$2"
+}

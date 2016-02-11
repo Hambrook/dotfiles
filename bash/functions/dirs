@@ -1,0 +1,40 @@
+###
+###=== DIRECTORIES ==============================================================
+
+# CHANGE DIRECTORY AND LIST
+### cdl              Enter a directory then list the contents
+##   ~ cdl <new-dir-name>
+##   ~ cdl src
+alias cdl="cd \"$\"; ll"
+
+# DIRECTORY AND DRIVE SIZES
+### drivesize        Display the capacity data for the current drive
+###  + dsize
+alias drivesize="df -h"
+alias dsize="drivesize"
+
+### dirsize          Display the size of the specified directory
+###  + foldersize
+###  + fsize
+##   ~ dirsize <dir-name>
+##   ~ dirsize src
+alias dirsize="du -sh"
+alias foldersize="dirsize"
+alias fsize="dirsize"
+
+# DIRECTORY CREATION
+### mkdir            Made dirs recursively
+##   ~ dirsize <new-dir-path>
+##   ~ dirsize src/lib/test
+alias mkdir="mkdir -p"
+
+### md               Alias for mkdir
+alias md="mkdir"
+
+### mde              Make then enter a directory
+##   ~ mde <new-dir-name>
+##   ~ mde src
+mde() {
+	md "$@"
+	cd "$@"
+}
