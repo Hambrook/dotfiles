@@ -3,48 +3,56 @@
 
 ### docker_clean     Clean old containers, even detached ones
 clean_docker() {
-  # from http://layer0.authentise.com/docker-4-useful-tips-you-may-not-know-about.html
-  # $ docker help ps
-  # -a, --all=false       Show all containers (default shows just running)
-  # --before=             Show only container created before Id or Name
-  # -f, --filter=[]       Filter output based on conditions provided
-  # --format=             Pretty-print containers using a Go template
-  # --help=false          Print usage
-  # -l, --latest=false    Show the latest created container, include non-running
-  # -n=-1                 Show n last created containers, include non-running
-  # --no-trunc=false      Don't truncate output
-  # -q, --quiet=false     Only display numeric IDs
-  # -s, --size=false      Display total file sizes
-  # --since=              Show created since Id or Name, include non-running
+	# from http://layer0.authentise.com/docker-4-useful-tips-you-may-not-know-about.html
+	# $ docker help ps
+	# -a, --all=false       Show all containers (default shows just running)
+	# --before=             Show only container created before Id or Name
+	# -f, --filter=[]       Filter output based on conditions provided
+	# --format=             Pretty-print containers using a Go template
+	# --help=false          Print usage
+	# -l, --latest=false    Show the latest created container, include non-running
+	# -n=-1                 Show n last created containers, include non-running
+	# --no-trunc=false      Don't truncate output
+	# -q, --quiet=false     Only display numeric IDs
+	# -s, --size=false      Display total file sizes
+	# --since=              Show created since Id or Name, include non-running
 
-  # query all containers that have status = (exited|dead)
-  CONTAINERS=$(docker ps \
-    --all \
-    --filter "status=exited" \
-    --filter "status=dead" \
-    --format="{{.ID}}")
+	# query all containers that have status = (exited|dead)
+	CONTAINERS=$(docker ps \
+		--all \
+		--filter "status=exited" \
+		--filter "status=dead" \
+		--format="{{.ID}}")
 
-  for CONTAINER in $CONTAINERS; do
-    # get the container name and label
-    NAME=$(docker ps \
-      --all \
-      --filter "id=$CONTAINER" \
-      --format "{{.Names}} {{.Labels}}")
+	for CONTAINER in $CONTAINERS; do
+		# get the container name and label
+		NAME=$(docker ps \
+			--all \
+			--filter "id=$CONTAINER" \
+			--format "{{.Names}} {{.Labels}}")
 
-    read -p "You are about to delete $NAME Are you sure? (y/n)" -r
-    if [[ $REPLY =~ ^[Yy]$ ]]; then
-      echo -n "Deleting $NAME..."
+		read -p "You are about to delete $NAME, are you sure? (y/n)" -r
+		if [[ $REPLY =~ ^[Yy]$ ]]; then
+			echo -n "Deleting $NAME..."
 
-      docker rm $CONTAINER 2&>1 /dev/null
+			docker rm $CONTAINER 2&>1 /dev/null
 
-      echo " DELETED"
-    fi
-  done
+			echo " DELETED"
+		fi
+	done
 }
+
+### composer         Run composer
+##   ~ composer --help
+alias composer='docker run --rm -it graze/composer'
 
 ### php7             Run a command in a PHP7 nightly container
 ##   ~ php7 <filename>
 ##   ~ php7 ./script.php
 php7() {
-	sudo docker run -it --rm --name php7 -v "$(pwd)":/tmp -w /tmp dave1010/php-nightly $@
+	docker run -it --rm --name php7 -v "$(pwd)":/tmp -w /tmp dave1010/php-nightly $@
 }
+
+### phpmd            Run phpmd (PHP Mess Detecter) on the current directory
+##   ~ phpmd [options]
+alias phpmd='docker run --rm -it -v $(pwd):/workspace denisura/phpmd'
