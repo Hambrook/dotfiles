@@ -37,7 +37,7 @@ md2html() {
 	find "${1}" -name "*.md" -type f -exec sh -c 'markdown "${0}" > "${2}${0%.md}.html"' {} \;
 }
 
-#h ttp://tldp.org/LDP/abs/html/sample-bashrc.html
+# http://tldp.org/LDP/abs/html/sample-bashrc.html
 ### swap             Swap two filenames around
 ##   ~ swap <file1> <file2>
 ##   ~ swap index.php index-old.php

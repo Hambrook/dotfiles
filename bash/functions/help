@@ -8,7 +8,7 @@ bashhelp() {
 
 	for f in $( echo "$DOTFILESHOME/bash/functions/${1}*" )
 	do
-	    cat $f | grep "${token}"
+		cat $f | grep "${token}" | sed -e 's/^#*//g'
 	done
 	shopt -u nullglob
 }
