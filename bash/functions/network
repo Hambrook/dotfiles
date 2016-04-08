@@ -26,7 +26,7 @@ alias ping5="ping -c 5"
 alias p5="ping5"
 
 ### urle             URL encode some text
-urle() {
+function urle() {
 	php -r "echo urlencode('$@').\"\n\";"
 }
 
@@ -35,7 +35,7 @@ urle() {
 ##   ~ addhost mytestdefaulttolocal
 ##   ~ addhost mytestmanual 192.168.0.1
 # Adapted from: https://gist.github.com/irazasyed/a7b0a079e7727a4315b9
-addhost() {
+function addhost() {
 	HOSTNAME=$1
 	IP=${2:-"127.0.0.1"}
 	HOSTS_LINE="$IP\t$HOSTNAME"
@@ -55,7 +55,7 @@ addhost() {
 	fi
 }
 
-hashost() {
+function hashost() {
 	HOSTNAME=$1
 	if [ -n "$(grep $HOSTNAME /etc/hosts)" ]; then
         echo -e "$HOSTNAME exists:\n$(grep $HOSTNAME /etc/hosts)"
@@ -68,7 +68,7 @@ hashost() {
 ##   ~ removehost <hostname>
 ##   ~ removehost mytest
 # Adapted from: https://gist.github.com/irazasyed/a7b0a079e7727a4315b9
-removehost() {
+function removehost() {
 	HOSTNAME="$1"
 	if [ -n "$(grep $HOSTNAME /etc/hosts)" ]; then
 		echo "$HOSTNAME Found in your /etc/hosts, Removing now...";
@@ -78,7 +78,7 @@ removehost() {
 	fi
 }
 
-hostess() {
+function hostess() {
 	case "$1" in
 		add)
 			addhost "$2" "$3"

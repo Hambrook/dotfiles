@@ -2,13 +2,13 @@
 ###=== DOCKER ===================================================================
 
 ### d_cleanup        Clean old containers and images
-d_cleanup() {
+function d_cleanup() {
 	docker rm -v $(docker ps --filter status=exited -q 2>/dev/null) 2>/dev/null
 	docker rmi $(docker images --filter dangling=true -q 2>/dev/null) 2>/dev/null
 }
 
 ### d_del_stopped    Delete stopped containers
-d_del_stopped() {
+function d_del_stopped() {
 	local name=$1
 	local state=$(docker inspect --format "{{.State.Running}}" $name 2>/dev/null)
 
@@ -18,7 +18,7 @@ d_del_stopped() {
 }
 
 # Internal helper for functions in the contained-apps file
-d_relies_on() {
+function d_relies_on() {
 	local containers=$@
 
 	for container in $containers; do

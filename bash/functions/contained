@@ -9,7 +9,7 @@ xhost +local:docker > /dev/null
 ### chrome           Run Google Chrome
 ##   ~ chrome
 ##   ~ chrome tor  # to route through torproxy
-chrome() {
+function chrome() {
 	# add flags for proxy if passed
 	local proxy=
 	local map=
@@ -55,7 +55,7 @@ chrome() {
 
 ### chromium         Run Google Chromium
 ##   ~ chromium
-chromium() {
+function chromium() {
 	# add flags for proxy if passed
 	local proxy=
 	local map=
@@ -98,13 +98,11 @@ chromium() {
 		--proxy-server="$proxy" \
 		--host-resolver-rules="$map" $args
 }
-
 ### composer         Run composer
 ##   ~ composer --help
-composer() {
+function composer() {
 	docker run \
-		--rm \
-		-it \
+		--rm -it \
 		-v $(pwd):/usr/src/app \
 		-v ~/.composer:/home/composer/.composer \
 		-v ~/.ssh:/home/composer/.ssh:ro \
@@ -113,7 +111,7 @@ composer() {
 
 ### curlt            Run curl through Tor
 ##   ~ curlt
-curlt() {
+function curlt() {
 	d_relies_on torproxy
 	proxy="torproxy:9050"
 	curl --socks5-hostname $proxy $@
@@ -121,7 +119,7 @@ curlt() {
 
 ### firefox          Run Firefox
 ##   ~ firefox
-firefox() {
+function firefox() {
 	d_del_stopped firefox
 
 	docker run -d \
@@ -146,7 +144,7 @@ firefox() {
 
 ### gimp             Run Gimp
 ##   ~ gimp
-gimp() {
+function gimp() {
 	d_del_stopped gimp
 
 	docker run -d \
@@ -163,7 +161,7 @@ gimp() {
 
 ### phpmd            Run phpmd (PHP Mess Detecter) on the current directory
 ##   ~ phpmd [options]
-phpmd() {
+function phpmd() {
 	docker run \
 		--rm \
 		-it \
@@ -172,7 +170,7 @@ phpmd() {
 
 ### slack            Run Slack
 ##   ~ slack
-slack() {
+function slack() {
 	d_del_stopped slack
 
 	docker run -d \
@@ -191,7 +189,7 @@ slack() {
 
 ### spotify          Run Spotify
 ##   ~ spotify
-spotify() {
+function spotify() {
 	d_del_stopped spotify
 
 	docker run -d \
@@ -207,7 +205,7 @@ spotify() {
 
 ### steam            Run Steam
 ##   ~ steam
-steam() {
+function steam() {
 	d_del_stopped steam
 	d_relies_on pulseaudio
 
@@ -227,7 +225,7 @@ steam() {
 
 ### tor              Run Tor
 ##   ~ tor
-tor() {
+function tor() {
 	d_del_stopped tor
 
 	docker run -d \
@@ -244,7 +242,7 @@ tor() {
 
 ### torbrowser       Run Tor Browser (configured Firefox)
 ##   ~ torbrowser
-torbrowser() {
+function torbrowser() {
 	d_del_stopped torbrowser
 
 	docker run -d \
@@ -260,7 +258,7 @@ torbrowser() {
 
 ### torproxy         Run Tor Proxy for use by other containers
 ##   ~ torproxy
-torproxy() {
+function torproxy() {
 	d_del_stopped torproxy
 
 	docker run -d \
@@ -275,7 +273,7 @@ torproxy() {
 
 ### transmission     Run Transmission
 ##   ~ transmission
-transmission() {
+function transmission() {
 	d_del_stopped transmission
 
 	docker run -d \
@@ -294,7 +292,7 @@ transmission() {
 
 ### virtualbox       Run VirtualBox
 ##   ~ virtualbox
-virtualbox() {
+function virtualbox() {
 	d_del_stopped virtualbox
 
 	# modprobe the module
@@ -318,7 +316,7 @@ virtualbox() {
 
 ### wireshark        Run Wireshark
 ##   ~ firefox
-wireshark() {
+function wireshark() {
 	d_del_stopped wireshark
 
 	docker run -d \
@@ -332,7 +330,7 @@ wireshark() {
 
 ### vlc              Run VLC
 ##   ~ firefox
-vlc() {
+function vlc() {
 	d_del_stopped vlc
 	d_relies_on pulseaudio
 

@@ -6,7 +6,7 @@
 ###  + asw
 ##   ~ aswww <command>
 ##   ~ aswww git pull
-aswww() {
+function aswww() {
     sudo -H -u www-data bash -c "${1} ${2} ${3} ${4} ${5} ${6} ${7} ${8}"
 }
 alias asw=aswww
@@ -15,6 +15,6 @@ alias asw=aswww
 ### sc               Run Symfony console command as web user
 ##   ~ sc <command>
 ##   ~ sc cache:clear
-sc() {
+function sc() {
     sudo -H -u www-data bash -c "php app/console ${1} ${2} ${3} ${4} ${5} ${6} ${7} ${8}"
 }

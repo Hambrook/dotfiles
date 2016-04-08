@@ -3,11 +3,13 @@
 
 # CLEAN OUT THE TRASH
 ### cleanup          Clean up junk files from Windows, Mac and Linux
-alias cleanup="find . -name '*.DS_Store' -type f -delete && find . -name '*_MACOSX' -type d -delete"
+function cleanup() {
+	find . -name '*.DS_Store' -type f -delete && find . -name '*_MACOSX' -type d -delete
+}
 
 # CREATE DATA URL FROM FILE
 ### dataurl          Convert a file into a data url
-dataurl() {
+function dataurl() {
 	local mimeType=$(file -b --mime-type "${1}")
 	if [[ $mimeType == text/* ]]; then
 		mimeType="${mimeType};charset=utf-8"
@@ -19,21 +21,27 @@ dataurl() {
 ### rs               Rsync with default flags
 ##   ~ rs <source> <destination>
 ##   ~ rs user@server:path/here/ local/path
-alias rs="rsync -rtch --delete --force --stats --progress"
+function rs() {
+	rsync -rtch --delete --force --stats --progress
+}
 
 # COMPRESSION
 ### tarup            Compress a directory to a tar file
 ##   ~ tarup <new-file> <spource-dir>
 ##   ~ tarup new.tar.gz src/
-alias tarup="tar cvfz"
+function tarup() {
+	tar cvfz
+}
 
 ### untar            Extract a tar file
 ##   ~ tarup <file>
 ##   ~ tarup file.tar.gz
-alias untar="tar xvfz"
+function untar() {
+	tar xvfz
+}
 
 ### md2html          Convert all MD files in a directory to HTML
-md2html() {
+function md2html() {
 	find "${1}" -name "*.md" -type f -exec sh -c 'markdown "${0}" > "${2}${0%.md}.html"' {} \;
 }
 

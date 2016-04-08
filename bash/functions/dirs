@@ -5,7 +5,10 @@
 ### cdl              Enter a directory then list the contents
 ##   ~ cdl <new-dir-name>
 ##   ~ cdl src
-alias cdl="cd \"$\"; ll"
+function cdl() {
+	cd "$@"
+	ll "$@"
+}
 
 # DIRECTORY AND DRIVE SIZES
 ### drivesize        Display the capacity data for the current drive
@@ -34,7 +37,7 @@ alias md="mkdir"
 ### mde              Make then enter a directory
 ##   ~ mde <new-dir-name>
 ##   ~ mde src
-mde() {
+function mde() {
 	md "$@"
 	cd "$@"
 }

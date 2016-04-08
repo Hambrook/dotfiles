@@ -6,7 +6,7 @@
 ##   ~ slack <room-or-user> <message> [<bot-name>] [<bot-icon>]
 ##   ~ slack general "Hello everyone" "My Bot Name" "tada"
 ##   ~ slack @joe "Hi Joe" "My Bot Name" "tada"
-slack() {
+function slack() {
     where="$1"
     if [[ ! $where =~ ^[#@] ]] ; then
         where="#${where}"
@@ -32,9 +32,9 @@ slack() {
         $SLACK_API_URL > /dev/null
 }
 
-p1() {
+function p1() {
     slack "${1}" "${2}" "Assistant Joe" man
 }
-p2() {
+function p2() {
     slack "${1}" "${2}" "Assistant Jane" woman
 }

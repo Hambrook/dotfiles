@@ -72,7 +72,7 @@ alias gr="gitflowrelease"
 ##   ~ gar [<path/to/sub/>] <ext>
 ##   ~ gar templates/ twig
 ##   ~ gar twig
-gar() {
+function gar() {
 	if [[ $1 ]]; then
 		if [[ $2 ]]; then
 			# If two arguments, assume path and extension
@@ -97,7 +97,7 @@ gar() {
 # Open a repo's BitBucket or GitHub page. append "src" or "commits" etc to jump to sections (tested on BitBucket)
 
 ### repo             Open a repo in the browser
-repo() {
+function repo() {
 	local giturl=$(git config --get remote.origin.url | sed 's/git@/\/\//g' | sed 's/.git$//' | sed 's/https://g' | sed 's/:/\//g')
 	if [[ $giturl == "" ]]; then
 		echo "Not a git repository or no remote.origin.url is set."
@@ -133,6 +133,6 @@ function repohome() {
 ###  + repoh
 alias repoh="repohome"
 
-get_git_branch_for_prompt() {
+function get_git_branch_for_prompt() {
      git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
 }

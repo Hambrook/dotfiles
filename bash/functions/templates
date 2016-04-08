@@ -8,7 +8,7 @@
 ##   ~ template [<template-name>] [<new-name>]
 ##   ~ template ht-as
 ##   ~ template ht-as .htaccess-new
-template() {
+function template() {
 	echo ""
 	local found=false
 
