@@ -29,3 +29,73 @@ alias p5="ping5"
 urle() {
 	php -r "echo urlencode('$@').\"\n\";"
 }
+
+### addhost          URL encode some text
+##   ~ addhost <hostname> [<ip>]
+##   ~ addhost mytestdefaulttolocal
+##   ~ addhost mytestmanual 192.168.0.1
+# Adapted from: https://gist.github.com/irazasyed/a7b0a079e7727a4315b9
+addhost() {
+	HOSTNAME=$1
+	IP=${2:-"127.0.0.1"}
+	HOSTS_LINE="$IP\t$HOSTNAME"
+
+	# Remove it if it's already there so we can update
+	if [ -n "$(grep $HOSTNAME /etc/hosts)" ]; then
+		removehost "$HOSTNAME"
+	fi
+
+	echo "Adding $HOSTNAME to your /etc/hosts";
+	sudo -- sh -c -e "echo '$HOSTS_LINE' >> /etc/hosts";
+
+	if [ -n "$(grep $HOSTNAME /etc/hosts)" ]; then
+		echo "$HOSTNAME was added succesfully \n $(grep $HOSTNAME /etc/hosts)";
+	else
+		echo "Failed to Add $HOSTNAME, Try again!";
+	fi
+}
+
+hashost() {
+	HOSTNAME=$1
+	if [ -n "$(grep $HOSTNAME /etc/hosts)" ]; then
+        echo -e "$HOSTNAME exists:\n$(grep $HOSTNAME /etc/hosts)"
+    else
+    	echo "$HOSTNAME does not exist"
+    fi
+}
+
+### removehost       URL encode some text
+##   ~ removehost <hostname>
+##   ~ removehost mytest
+# Adapted from: https://gist.github.com/irazasyed/a7b0a079e7727a4315b9
+removehost() {
+	HOSTNAME="$1"
+	if [ -n "$(grep $HOSTNAME /etc/hosts)" ]; then
+		echo "$HOSTNAME Found in your /etc/hosts, Removing now...";
+		sudo sed -i".bak" "/$HOSTNAME/d" /etc/hosts
+	else
+		echo "$HOSTNAME was not found in your /etc/hosts";
+	fi
+}
+
+hostess() {
+	case "$1" in
+		add)
+			addhost "$2" "$3"
+			;;
+		remove)
+			removehost "$2"
+			;;
+		*)
+			echo "Add and remove entries from the hosts file"
+			echo
+			echo "Usage: hostess [add|remove] [hostname] [ip]"
+			echo
+			echo "IP defaults to 127.0.0.1"
+			echo
+			echo "Examples:"
+			echo -e "\thostess add testing.com"
+			echo -e "\thostess remove testing.com 192.168.1.1"
+			;;
+	esac
+}
