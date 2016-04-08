@@ -1,0 +1,354 @@
+# Most of these are from: https://github.com/jfrazelle/dotfiles/blob/master/.dockerfunc
+
+# Ensure that these apps can access the host display
+xhost +local:docker > /dev/null
+
+###
+###=== CONTAINED ================================================================
+
+### chrome           Run Google Chrome
+##   ~ chrome
+##   ~ chrome tor  # to route through torproxy
+chrome() {
+	# add flags for proxy if passed
+	local proxy=
+	local map=
+	local args=$@
+
+	# Come back to tor support
+	if [[ "$1" == "tor" ]]; then
+		d_relies_on torproxy
+
+		map="MAP * ~NOTFOUND , EXCLUDE torproxy"
+		proxy="socks5://torproxy:9050"
+		args="https://check.torproject.org/api/ip ${@:2}"
+	fi
+
+	d_del_stopped chrome
+
+	# one day remove /etc/hosts bind mount when effing
+	# overlay support inotify, such bullshit
+	docker run -d \
+		--memory 3gb \
+		-v /etc/localtime:/etc/localtime:ro \
+		-v /tmp/.X11-unix:/tmp/.X11-unix \
+		-e DISPLAY=unix$DISPLAY \
+		-v $HOME/Downloads:/root/Downloads \
+		-v $HOME/Pictures:/root/Pictures \
+		-v $HOME/Torrents:/root/Torrents \
+		-v $HOME/.chrome:/data \
+		-v /dev/shm:/dev/shm \
+		-v /etc/hosts:/etc/hosts \
+		--security-opt seccomp:$DOTFILESHOME/docker/seccomp/chrome.json \
+		--device /dev/snd \
+		--device /dev/dri \
+		--device /dev/video0 \
+		--device /dev/usb \
+		--device /dev/bus/usb \
+		--group-add audio \
+		--group-add video \
+		--name chrome \
+		jess/chrome --user-data-dir=/data \
+		--proxy-server="$proxy" \
+		--host-resolver-rules="$map" $args
+}
+
+### chromium         Run Google Chromium
+##   ~ chromium
+chromium() {
+	# add flags for proxy if passed
+	local proxy=
+	local map=
+	local args=$@
+
+	# Come back to tor support
+	if [[ "$1" == "tor" ]]; then
+		d_relies_on torproxy
+
+		map="MAP * ~NOTFOUND , EXCLUDE torproxy"
+		proxy="socks5://torproxy:9050"
+		args="https://check.torproject.org/api/ip ${@:2}"
+	fi
+
+	d_del_stopped chromium
+
+	# one day remove /etc/hosts bind mount when effing
+	# overlay support inotify, such bullshit
+	docker run -d \
+		--memory 3gb \
+		-v /etc/localtime:/etc/localtime:ro \
+		-v /tmp/.X11-unix:/tmp/.X11-unix \
+		-e DISPLAY=unix$DISPLAY \
+		-v $HOME/Downloads:/root/Downloads \
+		-v $HOME/Pictures:/root/Pictures \
+		-v $HOME/Torrents:/root/Torrents \
+		-v $HOME/.chromium:/data \
+		-v /dev/shm:/dev/shm \
+		-v /etc/hosts:/etc/hosts \
+		--security-opt seccomp:$DOTFILESHOME/docker/seccomp/chrome.json \
+		--device /dev/snd \
+		--device /dev/dri \
+		--device /dev/video0 \
+		--device /dev/usb \
+		--device /dev/bus/usb \
+		--group-add audio \
+		--group-add video \
+		--name chromium \
+		jess/chromium --user-data-dir=/data \
+		--proxy-server="$proxy" \
+		--host-resolver-rules="$map" $args
+}
+
+### composer         Run composer
+##   ~ composer --help
+composer() {
+	docker run \
+		--rm \
+		-it \
+		-v $(pwd):/usr/src/app \
+		-v ~/.composer:/home/composer/.composer \
+		-v ~/.ssh:/home/composer/.ssh:ro \
+		graze/composer
+}
+
+### curlt            Run curl through Tor
+##   ~ curlt
+curlt() {
+	d_relies_on torproxy
+	proxy="torproxy:9050"
+	curl --socks5-hostname $proxy $@
+}
+
+### firefox          Run Firefox
+##   ~ firefox
+firefox() {
+	d_del_stopped firefox
+
+	docker run -d \
+		--memory 2gb \
+		--net host \
+		--cpuset-cpus 0 \
+		-v /etc/localtime:/etc/localtime:ro \
+		-v /tmp/.X11-unix:/tmp/.X11-unix \
+		-v $HOME/.firefox/cache:/root/.cache/mozilla \
+		-v $HOME/.firefox/mozilla:/root/.mozilla \
+		-v $HOME/Downloads:/root/Downloads \
+		-v $HOME/Pictures:/root/Pictures \
+		-v $HOME/Torrents:/root/Torrents \
+		-e DISPLAY=unix$DISPLAY \
+		-e GDK_SCALE \
+		-e GDK_DPI_SCALE \
+		--device /dev/snd \
+		--device /dev/dri \
+		--name firefox \
+		hambrook/firefox "$@"
+}
+
+### gimp             Run Gimp
+##   ~ gimp
+gimp() {
+	d_del_stopped gimp
+
+	docker run -d \
+		-v /etc/localtime:/etc/localtime:ro \
+		-v /tmp/.X11-unix:/tmp/.X11-unix \
+		-e DISPLAY=unix$DISPLAY \
+		-v $HOME/Pictures:/root/Pictures \
+		-v $HOME/.gtkrc:/root/.gtkrc \
+		-e GDK_SCALE \
+		-e GDK_DPI_SCALE \
+		--name gimp \
+		jess/gimp
+}
+
+### phpmd            Run phpmd (PHP Mess Detecter) on the current directory
+##   ~ phpmd [options]
+phpmd() {
+	docker run \
+		--rm \
+		-it \
+		-v $(pwd):/workspace denisura/phpmd
+}
+
+### slack            Run Slack
+##   ~ slack
+slack() {
+	d_del_stopped slack
+
+	docker run -d \
+		-v /etc/localtime:/etc/localtime:ro \
+		-v /tmp/.X11-unix:/tmp/.X11-unix \
+		-e DISPLAY=unix$DISPLAY \
+		--device /dev/snd \
+		--device /dev/dri \
+		--device /dev/video0 \
+		--group-add audio \
+		--group-add video \
+		-v ~/.slack:/root/.config/Slack \
+		--name slack \
+		jess/slack
+}
+
+### spotify          Run Spotify
+##   ~ spotify
+spotify() {
+	d_del_stopped spotify
+
+	docker run -d \
+		-v /etc/localtime:/etc/localtime:ro \
+		-v /tmp/.X11-unix:/tmp/.X11-unix \
+		-e DISPLAY=unix$DISPLAY \
+		-e QT_DEVICE_PIXEL_RATIO \
+		--device /dev/snd \
+		--group-add audio \
+		--name spotify \
+		jess/spotify
+}
+
+### steam            Run Steam
+##   ~ steam
+steam() {
+	d_del_stopped steam
+	d_relies_on pulseaudio
+
+	docker run -d \
+		-v /etc/localtime:/etc/localtime:ro \
+		-v /etc/machine-id:/etc/machine-id:ro \
+		-v /var/run/dbus:/var/run/dbus \
+		-v /tmp/.X11-unix:/tmp/.X11-unix \
+		-v $HOME/.steam:/home/steam \
+		-e DISPLAY=unix$DISPLAY \
+		--link pulseaudio:pulseaudio \
+		-e PULSE_SERVER=pulseaudio \
+		--device /dev/dri \
+		--name steam \
+		jess/steam
+}
+
+### tor              Run Tor
+##   ~ tor
+tor() {
+	d_del_stopped tor
+
+	docker run -d \
+		--net host \
+		--name tor \
+		jess/tor
+
+	# set up the redirect iptables rules
+	sudo setup-tor-iptables
+
+	# validate we are running through tor
+	browser-exec "https://check.torproject.org/"
+}
+
+### torbrowser       Run Tor Browser (configured Firefox)
+##   ~ torbrowser
+torbrowser() {
+	d_del_stopped torbrowser
+
+	docker run -d \
+		-v /etc/localtime:/etc/localtime:ro \
+		-v /tmp/.X11-unix:/tmp/.X11-unix \
+		-e DISPLAY=unix$DISPLAY \
+		-e GDK_SCALE \
+		-e GDK_DPI_SCALE \
+		--device /dev/snd \
+		--name torbrowser \
+		jess/tor-browser
+}
+
+### torproxy         Run Tor Proxy for use by other containers
+##   ~ torproxy
+torproxy() {
+	d_del_stopped torproxy
+
+	docker run -d \
+		--restart always \
+		-v /etc/localtime:/etc/localtime:ro \
+		-p 9050:9050 \
+		--name torproxy \
+		jess/tor-proxy
+
+	hostess add torproxy $(docker inspect --format "{{.NetworkSettings.Networks.bridge.IPAddress}}" torproxy)
+}
+
+### transmission     Run Transmission
+##   ~ transmission
+transmission() {
+	d_del_stopped transmission
+
+	docker run -d \
+		-v /etc/localtime:/etc/localtime:ro \
+		-v $HOME/Torrents:/transmission/download \
+		-v $HOME/.transmission:/transmission/config \
+		-p 9091:9091 \
+		-p 51413:51413 \
+		-p 51413:51413/udp \
+		--name transmission \
+		jess/transmission
+
+	hostess add transmission $(docker inspect --format "{{.NetworkSettings.Networks.bridge.IPAddress}}" transmission)
+	browser-exec "http://transmission:9091"
+}
+
+### virtualbox       Run VirtualBox
+##   ~ virtualbox
+virtualbox() {
+	d_del_stopped virtualbox
+
+	# modprobe the module
+	sudo modprobe vboxdrv
+	# and the extras for networking
+	sudo insmod /lib/modules/$(uname -r)/misc/vboxnet*.ko
+
+	docker run -d \
+		-v /etc/localtime:/etc/localtime:ro \
+		-v /tmp/.X11-unix:/tmp/.X11-unix  \
+		-e DISPLAY=unix$DISPLAY \
+		-e GDK_SCALE \
+		-e GDK_DPI_SCALE \
+		--name virtualbox \
+		--net host \
+		-v "$HOME/.vbox/vms:/root/VirtualBox VMs" \
+		-v $HOME/.vbox/config:/root/.config/VirtualBox \
+		--privileged \
+		jess/virtualbox
+}
+
+### wireshark        Run Wireshark
+##   ~ firefox
+wireshark() {
+	d_del_stopped wireshark
+
+	docker run -d \
+		-v /etc/localtime:/etc/localtime:ro \
+		-v /tmp/.X11-unix:/tmp/.X11-unix \
+		-e DISPLAY=unix$DISPLAY \
+		--net host \
+		--name wireshark \
+		jess/wireshark
+}
+
+### vlc              Run VLC
+##   ~ firefox
+vlc() {
+	d_del_stopped vlc
+	d_relies_on pulseaudio
+
+	docker run -d \
+		-v /etc/localtime:/etc/localtime:ro \
+		-v /tmp/.X11-unix:/tmp/.X11-unix \
+		-e DISPLAY=unix$DISPLAY \
+		-e GDK_SCALE \
+		-e GDK_DPI_SCALE \
+		-e QT_DEVICE_PIXEL_RATIO \
+		--link pulseaudio:pulseaudio \
+		-e PULSE_SERVER=pulseaudio \
+		--group-add audio \
+		--group-add video \
+		-v $HOME/Torrents:/home/vlc/Torrents \
+		--device /dev/dri \
+		--name vlc \
+		jess/vlc
+}
