@@ -106,7 +106,7 @@ function composer() {
 		-v $(pwd):/usr/src/app \
 		-v ~/.composer:/home/composer/.composer \
 		-v ~/.ssh:/home/composer/.ssh:ro \
-		graze/composer
+		graze/composer $@
 }
 
 ### curlt            Run curl through Tor
