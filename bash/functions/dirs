@@ -26,9 +26,9 @@ alias foldersize="dirsize"
 alias fsize="dirsize"
 
 # DIRECTORY CREATION
-### mkdir            Made dirs recursively
-##   ~ dirsize <new-dir-path>
-##   ~ dirsize src/lib/test
+### mkdir            Make dirs recursively
+##   ~ mkdir <new-dir-path>
+##   ~ mkdir src/lib/test
 alias mkdir="mkdir -p"
 
 ### md               Alias for mkdir
