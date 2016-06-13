@@ -30,3 +30,8 @@ function d_relies_on() {
 		fi
 	done
 }
+
+### d_stop_all       Stop all running containers
+function d_stop_all() {
+	docker stop $(docker ps --format "{{.Names}}")
+}
