@@ -7,6 +7,11 @@ function d_cleanup() {
 	docker rmi $(docker images --filter dangling=true -q 2>/dev/null) 2>/dev/null
 }
 
+### d_gc             Garbage collection
+function d_gc() {
+	docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v /etc:/etc spotify/docker-gc
+}
+
 ### d_del_stopped    Delete stopped containers
 function d_del_stopped() {
 	local name=$1
