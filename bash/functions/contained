@@ -203,26 +203,6 @@ function spotify() {
 		jess/spotify
 }
 
-### steam            Run Steam
-##   ~ steam
-function steam() {
-	d_del_stopped steam
-	d_relies_on pulseaudio
-
-	docker run -d \
-		-v /etc/localtime:/etc/localtime:ro \
-		-v /etc/machine-id:/etc/machine-id:ro \
-		-v /var/run/dbus:/var/run/dbus \
-		-v /tmp/.X11-unix:/tmp/.X11-unix \
-		-v $HOME/.steam:/home/steam \
-		-e DISPLAY=unix$DISPLAY \
-		--link pulseaudio:pulseaudio \
-		-e PULSE_SERVER=pulseaudio \
-		--device /dev/dri \
-		--name steam \
-		jess/steam
-}
-
 ### tor              Run Tor
 ##   ~ tor
 function tor() {
