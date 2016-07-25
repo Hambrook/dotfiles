@@ -6,6 +6,18 @@ xhost +local:docker > /dev/null
 ###
 ###=== CONTAINED ================================================================
 
+### atom             Run the Atom editor
+##   ~ atom
+function atom() {
+	docker run -d \
+		-v /tmp/.X11-unix/:/tmp/.X11-unix/ \
+		-v /dev/shm:/dev/shm \
+		-v ${HOME}/.atom:/.atom \
+		-v ${PWD}:${PWD} \
+		-e DISPLAY \
+		jamesnetherton/docker-atom-editor
+}
+
 ### chrome           Run Google Chrome
 ##   ~ chrome
 ##   ~ chrome tor  # to route through torproxy
