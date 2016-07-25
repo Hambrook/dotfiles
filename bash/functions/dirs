@@ -10,6 +10,10 @@ function cdl() {
 	ll "$@"
 }
 
+# DIRECTORY LISTING
+### ll               Human friendly directory listing
+alias ll="ls -Ahl"
+
 # DIRECTORY AND DRIVE SIZES
 ### drivesize        Display the capacity data for the current drive
 ###  + dsize
