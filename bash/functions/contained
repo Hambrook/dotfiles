@@ -6,6 +6,32 @@ xhost +local:docker > /dev/null
 ###
 ###=== CONTAINED ================================================================
 
+### atom             Run the Atom editor
+##   ~ atom
+function atom() {
+	docker run -d \
+		-v /tmp/.X11-unix/:/tmp/.X11-unix/ \
+		-v /dev/shm:/dev/shm \
+		-v ${HOME}/.atom:/.atom \
+		-v ${PWD}:${PWD} \
+		-e DISPLAY \
+		jamesnetherton/docker-atom-editor
+}
+
+### bower            Run Bower
+##   ~ bower
+function bower() {
+	TAG=alpine
+	BRANCH=alpine
+
+	if [ "self-update" = "$1" ]; then
+		docker pull mkenney/npm:$TAG
+		wget -nv -O $0 https://raw.githubusercontent.com/mkenney/docker-npm/$BRANCH/bin/bower && exit 0
+	else
+		docker run --rm -t -i -v $(pwd):/src:rw -v $HOME/.ssh:/home/dev/.ssh:ro mkenney/npm:$TAG /run-as-user /usr/local/bin/bower $@
+	fi
+}
+
 ### chrome           Run Google Chrome
 ##   ~ chrome
 ##   ~ chrome tor  # to route through torproxy
@@ -28,6 +54,7 @@ function chrome() {
 
 	# one day remove /etc/hosts bind mount when effing
 	# overlay support inotify, such bullshit
+		#--security-opt seccomp:$DOTFILESHOME/docker/seccomp/chrome.json \
 	docker run -d \
 		--memory 3gb \
 		-v /etc/localtime:/etc/localtime:ro \
@@ -39,7 +66,6 @@ function chrome() {
 		-v $HOME/.chrome:/data \
 		-v /dev/shm:/dev/shm \
 		-v /etc/hosts:/etc/hosts \
-		--security-opt seccomp:$DOTFILESHOME/docker/seccomp/chrome.json \
 		--device /dev/snd \
 		--device /dev/dri \
 		--device /dev/video0 \
@@ -159,6 +185,62 @@ function gimp() {
 		jess/gimp
 }
 
+### grunt            Run Grunt
+##   ~ grunt
+function grunt() {
+	TAG=alpine
+	BRANCH=alpine
+
+	if [ "self-update" = "$1" ]; then
+		docker pull mkenney/npm:$TAG
+		wget -nv -O $0 https://raw.githubusercontent.com/mkenney/docker-npm/$BRANCH/bin/grunt && exit 0
+	else
+		docker run --rm -t -i -v $(pwd):/src:rw -v $HOME/.ssh:/home/dev/.ssh:ro mkenney/npm:$TAG /run-as-user /usr/local/bin/grunt $@
+	fi
+}
+
+### gulp             Run Gulp
+##   ~ gulp
+function gulp() {
+	TAG=alpine
+	BRANCH=alpine
+
+	if [ "self-update" = "$1" ]; then
+		docker pull mkenney/npm:$TAG
+		wget -nv -O $0 https://raw.githubusercontent.com/mkenney/docker-npm/$BRANCH/bin/gulp && exit 0
+	else
+		docker run --rm -t -i -v $(pwd):/src:rw -v $HOME/.ssh:/home/dev/.ssh:ro mkenney/npm:$TAG /run-as-user /usr/local/bin/gulp $@
+	fi
+}
+
+### node             Run Node
+##   ~ node
+function node() {
+	TAG=alpine
+	BRANCH=alpine
+
+	if [ "self-update" = "$1" ]; then
+		docker pull mkenney/npm:$TAG
+		wget -nv -O $0 https://raw.githubusercontent.com/mkenney/docker-npm/$BRANCH/bin/node && exit 0
+	else
+		docker run --rm -t -i -v $(pwd):/src:rw -v $HOME/.ssh:/home/dev/.ssh:ro mkenney/npm:$TAG /run-as-user /usr/local/bin/node $@
+	fi
+}
+
+### npm              Run NPM
+##   ~ npm
+function npm() {
+	TAG=alpine
+	BRANCH=alpine
+
+	if [ "self-update" = "$1" ]; then
+		docker pull mkenney/npm:$TAG
+		wget -nv -O $0 https://raw.githubusercontent.com/mkenney/docker-npm/$BRANCH/bin/npm && exit 0
+	else
+		docker run --rm -t -i -v $(pwd):/src:rw -v $HOME/.ssh:/home/dev/.ssh:ro mkenney/npm:$TAG /run-as-user /usr/local/bin/npm $@
+	fi
+}
+
 ### phpmd            Run phpmd (PHP Mess Detecter) on the current directory
 ##   ~ phpmd [options]
 function phpmd() {
@@ -201,26 +283,6 @@ function spotify() {
 		--group-add audio \
 		--name spotify \
 		jess/spotify
-}
-
-### steam            Run Steam
-##   ~ steam
-function steam() {
-	d_del_stopped steam
-	d_relies_on pulseaudio
-
-	docker run -d \
-		-v /etc/localtime:/etc/localtime:ro \
-		-v /etc/machine-id:/etc/machine-id:ro \
-		-v /var/run/dbus:/var/run/dbus \
-		-v /tmp/.X11-unix:/tmp/.X11-unix \
-		-v $HOME/.steam:/home/steam \
-		-e DISPLAY=unix$DISPLAY \
-		--link pulseaudio:pulseaudio \
-		-e PULSE_SERVER=pulseaudio \
-		--device /dev/dri \
-		--name steam \
-		jess/steam
 }
 
 ### tor              Run Tor
@@ -315,7 +377,7 @@ function virtualbox() {
 }
 
 ### wireshark        Run Wireshark
-##   ~ firefox
+##   ~ wireshark
 function wireshark() {
 	d_del_stopped wireshark
 
@@ -329,7 +391,7 @@ function wireshark() {
 }
 
 ### vlc              Run VLC
-##   ~ firefox
+##   ~ vlc
 function vlc() {
 	d_del_stopped vlc
 	d_relies_on pulseaudio
