@@ -6,17 +6,6 @@
 ### eba              Edit .bash_aliases file using nano
 alias eba="nano ~/.bash_aliases"
 
-# HASHING
-### md5              Hash a string using md5
-##   ~ md5 <text-to-hash>
-##   ~ md5 "foo bar"
-alias md5="php ~/Projects/sandbox.local/md5/index.php"
-
-### sha1             Hash a string using sha1
-##   ~ sha1 <text-to-hash>
-##   ~ sha1 "foo bar"
-alias sha1="php ~/Projects/sandbox.local/sha1/index.php"
-
 # HOSTS
 ### eh               Edit hosts file in nano
 alias eh="sudo nano /etc/hosts"
