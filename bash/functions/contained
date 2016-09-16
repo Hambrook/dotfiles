@@ -325,6 +325,7 @@ function torproxy() {
 
 	docker run -d \
 		--restart always \
+		--log-driver none \
 		-v /etc/localtime:/etc/localtime:ro \
 		-p 9050:9050 \
 		--name torproxy \
