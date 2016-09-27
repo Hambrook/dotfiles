@@ -353,6 +353,17 @@ function transmission() {
 	browser-exec "http://transmission:9091"
 }
 
+### unifi            Run Unifi server
+##   ~ transmission
+function unifi() {
+	d_del_stopped unifi
+
+	docker run -d \
+		--net=host \
+		--name=unifi \
+		jacobalberty/unifi:latest
+}
+
 ### virtualbox       Run VirtualBox
 ##   ~ virtualbox
 function virtualbox() {
