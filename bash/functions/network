@@ -3,7 +3,7 @@
 
 # DECICES ON LOCAL NETWORK
 ### onlan            Show devices on LAN
-alias onlan="sudo netdiscover -r 192.168.1.0/24 -i wlan0"
+alias onlan="sudo netdiscover -r 192.168.1.0/24 -i wlp2s0"
 
 # DECICES ON LOCAL NETWORK (QUICK)
 ### onlanq           Show devices on LAN (quick)
@@ -45,23 +45,23 @@ function addhost() {
 		removehost "$HOSTNAME"
 	fi
 
-	echo "Adding $HOSTNAME to your /etc/hosts";
+	printf "Adding $HOSTNAME to your /etc/hosts\n";
 	sudo -- sh -c -e "echo '$HOSTS_LINE' >> /etc/hosts";
 
 	if [ -n "$(grep $HOSTNAME /etc/hosts)" ]; then
-		echo "$HOSTNAME was added succesfully \n $(grep $HOSTNAME /etc/hosts)";
+		printf "%s was added succesfully \n\t%s\n" "$HOSTNAME" "$(grep $HOSTNAME /etc/hosts)";
 	else
-		echo "Failed to Add $HOSTNAME, Try again!";
+		printf "Failed to Add %s, Try again!\n" "$HOSTNAME";
 	fi
 }
 
 function hashost() {
 	HOSTNAME=$1
 	if [ -n "$(grep $HOSTNAME /etc/hosts)" ]; then
-        echo -e "$HOSTNAME exists:\n$(grep $HOSTNAME /etc/hosts)"
-    else
-    	echo "$HOSTNAME does not exist"
-    fi
+		printf "%s exists: \n\t%s\n" "$HOSTNAME" "$(grep $HOSTNAME /etc/hosts)";
+	else
+		printf "%s does not exist\n" "$HOSTNAME";
+	fi
 }
 
 ### removehost       URL encode some text
@@ -71,10 +71,10 @@ function hashost() {
 function removehost() {
 	HOSTNAME="$1"
 	if [ -n "$(grep $HOSTNAME /etc/hosts)" ]; then
-		echo "$HOSTNAME Found in your /etc/hosts, Removing now...";
+		printf "Found %s in your /etc/hosts, Removing now...\n" "$HOSTNAME";
 		sudo sed -i".bak" "/$HOSTNAME/d" /etc/hosts
 	else
-		echo "$HOSTNAME was not found in your /etc/hosts";
+		printf "%s was not found in your /etc/hosts\n" "$HOSTNAME";
 	fi
 }
 
