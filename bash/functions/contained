@@ -143,6 +143,18 @@ function curlt() {
 	curl --socks5-hostname $proxy $@
 }
 
+### dropbox          Run Dropbox
+##   ~ dropbox (on first run be sure to run "docker logs dropbox" and activate it via the link shown)
+function dropbox() {
+	docker run -d \
+		--restart=always \
+		--name=dropbox \
+		-e DBOX_UID=110 \
+		-e DBOX_GID=200 \
+		-v ~/Dropbox:/dbox/Dropbox \
+		janeczku/dropbox
+}
+
 ### firefox          Run Firefox
 ##   ~ firefox
 function firefox() {
