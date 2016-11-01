@@ -1,0 +1,4 @@
+[
+	{ "keys": ["ctrl+;"], "command": "run_macro_file", "args": { "file": "Packages/User/semi-colon-at-end-of-line.sublime-macro" } },
+	{ "keys": ["ctrl+,"], "command": "run_macro_file", "args": { "file": "Packages/User/comma-at-end-of-line.sublime-macro" } }
+]
