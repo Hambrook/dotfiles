@@ -253,6 +253,16 @@ function npm() {
 	fi
 }
 
+### php              PHP CLI
+##   ~ php index.php
+function php() {
+	docker run \
+		--rm \
+		--name=php-cli \
+		-v $(pwd):/www matriphe/alpine-php:cli \
+		php $@
+}
+
 ### phpmd            Run phpmd (PHP Mess Detecter) on the current directory
 ##   ~ phpmd [options]
 function phpmd() {
