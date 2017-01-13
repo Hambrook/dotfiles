@@ -1,6 +1,15 @@
 ###
 ###=== GIT ======================================================================
 
+###  git_branch      Show the current git branch
+function git_branch() {
+    git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
+}
+
+function get_git_branch_for_prompt() {
+    git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+}
+
 # GIT
 ### git-undo         Undo a commit
 alias git-undo="git reset --soft 'HEAD^'"
@@ -29,7 +38,7 @@ alias gut="gu --tags"
 alias gua="gub && gut"
 
 ### gucb             Git push current branch to origin
-alias gucb="gu origin $(git_branch)"
+alias gucb="gu origin `git_branch`"
 
 # GIT Down
 
@@ -123,12 +132,3 @@ function repohome() {
 
 ###  + repoh
 alias repoh="repohome"
-
-###  git_branch      Show the current git branch
-function git_branch() {
-    git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
-}
-
-function get_git_branch_for_prompt() {
-    git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
-}
