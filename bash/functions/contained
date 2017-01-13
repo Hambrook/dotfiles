@@ -101,7 +101,6 @@ function chromium() {
 	# one day remove /etc/hosts bind mount when effing
 	# overlay support inotify, such bullshit
 	docker run -d \
-		--memory 3gb \
 		-v /etc/localtime:/etc/localtime:ro \
 		-v /tmp/.X11-unix:/tmp/.X11-unix \
 		-e DISPLAY=unix$DISPLAY \
@@ -111,7 +110,6 @@ function chromium() {
 		-v $HOME/.chromium:/data \
 		-v /dev/shm:/dev/shm \
 		-v /etc/hosts:/etc/hosts \
-		--security-opt seccomp:$DOTFILESHOME/docker/seccomp/chrome.json \
 		--device /dev/snd \
 		--device /dev/dri \
 		--device /dev/video0 \
