@@ -19,12 +19,6 @@ alias git-push-release="git checkout master; git push origin master --tags; git 
 ### gu               Git push
 alias gu="git push"
 
-### gud              Git push develop
-alias gud="gu develop"
-
-### gum              Git push master
-alias gum="gu master"
-
 ### gub              Git push all
 alias gub="gu --all"
 
@@ -34,16 +28,13 @@ alias gut="gu --tags"
 ### gua              Git push all and tags
 alias gua="gub && gut"
 
+### gucb             Git push current branch to origin
+alias gucb="gu origin $(git_branch)"
+
 # GIT Down
 
 ### gd               Git pull
 alias gd="git pull"
-
-### gdd              Git pull develop
-alias gdd="gd develop"
-
-### gdm              Git pull master
-alias gdm="gd master"
 
 # GIT Checkout
 
@@ -135,9 +126,9 @@ alias repoh="repohome"
 
 ###  git_branch      Show the current git branch
 function git_branch() {
-     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
+    git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
 }
 
 function get_git_branch_for_prompt() {
-     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+    git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
 }
