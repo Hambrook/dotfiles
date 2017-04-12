@@ -1,4 +1,9 @@
 {
+	"font_face": "Hack",
 	"font_size": 9,
-    "word_separators": "./\\()\"'-:,.;<>~!@#%^&*|+=[]{}`~?"
+	"ignored_packages":
+	[
+		"Vintage"
+	],
+	"word_separators": "./\\()\"'-:,.;<>~!@#%^&*|+=[]{}`~?"
 }
