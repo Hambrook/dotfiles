@@ -6,7 +6,7 @@ function bashhelp() {
 		local token="${token}#"
 	fi
 
-	for f in $( echo "$DOTFILESHOME/bash/functions/${1}*" )
+	for f in $( echo "{$DOTFILESHOME}/bash/functions/${1}*" )
 	do
 		cat $f | grep "${token}" | sed -e 's/^#*//g'
 	done
