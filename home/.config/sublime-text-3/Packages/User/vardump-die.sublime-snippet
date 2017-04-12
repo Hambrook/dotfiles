@@ -1,0 +1,9 @@
+<snippet>
+    <content><![CDATA[die(vardump(\$${1:varname}));]]></content>
+    <!-- Optional: Tab trigger to activate the snippet -->
+    <tabTrigger>vdd</tabTrigger>
+    <!-- Optional: Scope the tab trigger will be active in -->
+    <scope>source.php</scope>
+    <!-- Optional: Description to show in the menu -->
+    <description>VarDump then Die</description>
+</snippet>
