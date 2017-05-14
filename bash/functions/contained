@@ -288,13 +288,35 @@ function php() {
 		php $@
 }
 
+### phpcs            Run phpcs (PHP Code Sniffer) on the current directory
+##   ~ phpcs [options]
+function phpcs() {
+	docker run \
+		--rm \
+		--name phpcs \
+		--volume $(pwd):/project \
+		herloct/phpcs $@
+}
+
 ### phpmd            Run phpmd (PHP Mess Detecter) on the current directory
 ##   ~ phpmd [options]
 function phpmd() {
 	docker run \
 		--rm \
+		--name phpmd \
 		-it \
-		-v $(pwd):/workspace denisura/phpmd
+		-v $(pwd):/workspace
+		denisura/phpmd $@
+}
+
+### phpunit          Run phpunit
+##   ~ phpunit
+function phpunit() {
+	docker run \
+	--rm \
+	--name phpunit \
+	-v $(pwd):/app \
+	phpunit/phpunit $@
 }
 
 ### sass             Run sass to build assets
