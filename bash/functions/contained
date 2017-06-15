@@ -135,8 +135,20 @@ function chromium() {
 		--host-resolver-rules="$map" $args
 }
 
+### compass          Run compass
+##   ~ compass compile
+function compass() {
+	docker run \
+		--rm -it \
+		--name compass \
+		--user $(id -u):$(id -g) \
+		-v $(pwd):/src \
+		-w /src \
+		bhrutledge/compass $@
+}
+
 ### composer         Run composer
-##   ~ composer --help
+##   ~ composer install
 function composer() {
 	docker run \
 		--rm -it \
@@ -147,16 +159,16 @@ function composer() {
 }
 
 ### composer5        Run composer with PHP5
-##   ~ composer5 --help
+##   ~ composer5 install
 function composer5() {
 	docker run \
 		--rm -it \
 		--name composer \
-        --user $(id -u):$(id -g) \
+		--user $(id -u):$(id -g) \
 		-v $(pwd):/app \
 		-v ~/.ssh:/root/.ssh:ro \
-        -v /etc/passwd:/etc/passwd:ro \
-        -v /etc/group:/etc/group:ro \
+		-v /etc/passwd:/etc/passwd:ro \
+		-v /etc/group:/etc/group:ro \
 		composer/composer:php5-alpine $@
 }
 
