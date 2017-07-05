@@ -317,7 +317,7 @@ function phpmd() {
 		--rm \
 		--name phpmd \
 		-it \
-		-v $(pwd):/workspace
+		-v $(pwd):/workspace \
 		denisura/phpmd $@
 }
 
