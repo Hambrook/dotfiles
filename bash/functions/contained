@@ -458,6 +458,7 @@ function unifi() {
 	docker run -d \
 		--net=host \
 		--name=unifi \
+		--userns=host \
 		jacobalberty/unifi:latest
 }
 

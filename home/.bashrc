@@ -62,9 +62,9 @@ if [ -n "$force_color_prompt" ]; then
 fi
 
 if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\[\033[01;33m\]$(get_git_branch_for_prompt)\[\033[00m\]\$ '
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\[\033[01;33m\]$(get-git-branch-for-prompt)\[\033[00m\]\$ '
 else
-    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w$(get_git_branch_for_prompt)\$ '
+    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w$(get-git-branch-for-prompt)\$ '
 fi
 unset color_prompt force_color_prompt
 

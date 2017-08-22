@@ -1,4 +1,3 @@
-
 ###
 ###=== ALIASES ==================================================================
 
@@ -13,6 +12,13 @@ alias eh="sudo nano /etc/hosts"
 # BASH
 ### ra               Reload aliases
 alias ra=". ~/.profile"
+
+### slugify          Make a valid URL slug or git branch name from potentially invalid text
+##   ~ slugify branch name here // branch-name-here
+function slugify() {
+	tmp="$@"
+	echo ${tmp//[^0-9a-zA-Z]/'-'}
+}
 
 # STOPWATCH/TIMER
 ### timer            Start a timer
