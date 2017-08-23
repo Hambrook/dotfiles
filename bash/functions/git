@@ -50,7 +50,7 @@ alias gut="gu --tags"
 alias gua="gub && gut"
 
 ### gucb             Git push current branch to origin
-alias gucb="gu origin `git_branch`"
+alias gucb="echo gu origin \$(git-branch)"
 
 # GIT Down
 
@@ -89,7 +89,7 @@ function git-new-branch() {
 alias gnb="git-new-branch"
 
 ### git-branch       Show the current Git branch
-function git_branch() {
+function git-branch() {
     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
 }
 
