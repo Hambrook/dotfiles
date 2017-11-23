@@ -50,12 +50,15 @@ alias gut="gu --tags"
 alias gua="gub && gut"
 
 ### gucb             Git push current branch to origin
-alias gucb="echo gu origin \$(git-branch)"
+alias gucb="gu origin \$(git-branch)"
 
 # GIT Down
 
 ### gd               Git pull
 alias gd="git pull"
+
+### gdcb             Git pull current branch to origin
+alias gdcb="gd origin \$(git-branch)"
 
 # GIT Checkout
 
