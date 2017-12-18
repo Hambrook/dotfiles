@@ -1,5 +1,9 @@
 . $( cd "$( dirname "${BASH_SOURCE[0]}" )" && cd .. && pwd )/bash/include
 
+# GPG key for Github signing
+# https://help.github.com/articles/signing-commits-with-gpg/
+export GPG_TTY=$(tty)
+
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
