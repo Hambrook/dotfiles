@@ -157,6 +157,7 @@ function composer() {
 		-v ~/.ssh:/root/.ssh:ro \
 		composer/composer:alpine $@
 }
+alias composer7="composer"
 
 ### composer5        Run composer with PHP5
 ##   ~ composer5 install
