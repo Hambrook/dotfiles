@@ -20,4 +20,4 @@ for example...
 
 ### Credit
 
-Numerous functions were copied from or inspired by those of [Jessie Frazelle](https://github.com/jfrazelle/dotfiles).
+Numerous functions were copied from or inspired by those of [Jessie Frazelle](https://github.com/jessfraz/dotfiles).
