@@ -1,13 +1,46 @@
 # http://tldp.org/LDP/abs/html/sample-bashrc.html
 
 # Easily ask for confirmation
-#	if ask "Are you sure you want to do this?"; then
+#	if confirm "Are you sure you want to do this?"; then
 #		echo "You did the thing"
 #	fi
+# Note: returns 0 for yes (non-zero is assumed an error code)
+function confirm() {
+	# $1 = Question
+	# $2 = default (y/true/n/false)
+
+	local prompt="y/N"
+	local default=1
+	if [[ $2 =~ ^[Yy].* ]]; then
+		prompt="Y/n"
+		default=0
+	fi
+
+	read -p "${1} [${prompt}]: " response
+
+	if [[ $response =~ ^[Yy].* ]]; then
+		return 0
+	fi
+	if [[ $response = "" ]]; then
+		return $default
+	fi
+	return 1
+}
+
+# Easily ask for a value
+#	myvar=$(ask "Your name?" "John Doe")
+#	echo $myvar
 function ask() {
-    echo -n "$@" '[y/n] ' ; read ans
-    case "$ans" in
-        y*|Y*) return 0 ;;
-        *) return 1 ;;
-    esac
+	# $1 = Question
+	# $2 = default
+	# $3 = prompt (if different from default)
+
+	local default="${2}"
+	local prompt="${3:-${default}}"
+	if [[ $prompt ]]; then
+		prompt=" [${prompt}]"
+	fi
+
+	read -p "${1}${prompt}: " response
+	printf ${response:-${default}}
 }
