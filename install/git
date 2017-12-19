@@ -1,7 +1,14 @@
 #!/bin/bash
 
-printf "Installing and configuring Git...\n\n"
+# include some helper functions for interativity
+source "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && cd .. && pwd )/bash/functions/supporting"
 
+if ! confirm "Do you wish to install Git?" "Y"; then
+	print "Aborting\n"
+	exit
+fi
+
+sudo apt-get update
 sudo apt-get install git
 
 printf "Please answer some questions so we can pre-configure Git...\n\n"

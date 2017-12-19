@@ -1,8 +1,30 @@
 #!/bin/bash
 
+# include some helper functions for interativity
+source "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && cd .. && pwd )/bash/functions/supporting"
+
+printf "
+Guake is an always-ready terminal window that is activated with a hotkey
+
+"
+if ! confirm "Do you wish to install Guake?" "Y"; then
+	print "Aborting\n"
+	exit
+fi
+
+sudo apt-get update
 sudo apt-get install guake
 
-gconftool --type string --set /apps/guake/keybindings/global/show_hide         "F9"
+printf "
+Guake is activated by a hotkey such as \"F9\" or \"Insert\"
+Modifier keys are: <Control> <Alt> <Shift> <Super>
+Letters are normal: a b c d...
+Example: <Control><Alt><Shift>t
+
+"
+hotkey_activate=$(ask "Hotkey to toggle visibility?" "F9")
+
+gconftool --type string --set /apps/guake/keybindings/global/show_hide         "${hotkey_activate}"
 gconftool --type string --set /apps/guake/keybindings/local/rename_current_tab "F2"
 gconftool --type string --set /apps/guake/keybindings/local/close_tab          "<Control><Shift>w"
 gconftool --type string --set /apps/guake/keybindings/local/switch_tab2        "<Primary>F2"
