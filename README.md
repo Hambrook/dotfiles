@@ -4,9 +4,11 @@ Various Bash functions, aliases and other things that are useful to me and mine.
 
 ### Installation
 
-Symlink or source the `dotfiles/home/.bashrc` file to your `.bashrc` file.
+Symlink or source the `dotfiles/home/.bashrc` file to your `.bashrc` file (and empty the rest of the file if desired).
 
 Optionally create and set some vars in `~/.variables` if you want.
+
+There are specific installer scripts inside `install/` if desired. Some make assumptions, some ask questions.
 
 ### Help
 
