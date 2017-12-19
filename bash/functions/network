@@ -30,6 +30,47 @@ function urle() {
 	php -r "echo urlencode('$@').\"\n\";"
 }
 
+### hostess          Wrapper functions for adding/removing host entries
+##   ~ hostess add <hostname> [<ip>] [<comment>]
+##   ~ hostess add example.local
+##   ~ hostess add example.local 192.168.0.1
+##   ~ hostess add example.local 192.168.0.1 "Comment here"
+##   ~ hostess add example.local "" "Comment here, 127.0.0.1 will be used for IP"
+##   ~ hostess remove <hostname>
+##   ~ hostess remove example.local
+##   ~ hostess remove example.local example2.local
+function hostess() {
+	case "$1" in
+		add)
+			addhost "$2" "$3" "$4"
+			;;
+		remove)
+			removehost ${*:2}
+			;;
+		*)
+			printf "
+Add and remove entries from the hosts file while leaving all other valid entries intact
+
+Usage: hostess COMMAND HOSTNAME [IP]
+
+Commands:
+    add     Add a new host entry
+    remove  Remove a host entry
+
+IP defaults to 127.0.0.1
+
+Examples:
+    hostess add example.local
+    hostess add example.local 192.168.1.1
+    hostess add example.local 192.168.1.1 \"Comment here\"
+    hostess add example.local \"\" \"Comment here, 127.0.0.1 will be used for IP\"
+    hostess remove example.local
+    hostess remove example.local example2.local
+"
+			;;
+	esac
+}
+
 ### addhost          Add a hostname (option IP, option comment) to hosts file
 ##   ~ addhost HOSTNAME [<ip>] [<comment>]
 ##   ~ addhost mytestdefaulttolocal
@@ -62,6 +103,9 @@ function addhost() {
 	fi
 }
 
+### hashost          Check if a hostname is in the hosts file
+##   ~ hashost <hostname>
+##   ~ hashost example.local
 function hashost() {
 	local HOSTNAME="$1"
 	local REGEXHOST=`echo "${HOSTNAME}" | sed 's/\./\\\\./g'`
@@ -73,9 +117,10 @@ function hashost() {
 	fi
 }
 
-### removehost       Remove a hostname from /etc/hosts and clean up the file
+### removehost       Remove one or more hostnames from /etc/hosts and clean up the file
 ##   ~ removehost <hostname>
-##   ~ removehost mytest
+##   ~ removehost example.local
+##   ~ removehost example.local example2.local
 function removehost() {
 	for HOSTNAME in ${@}; do
 		# escape the domain for a regex pattern
@@ -96,33 +141,4 @@ function removehost() {
 			printf "Could not find \"%s\" in your /etc/hosts\n" "${HOSTNAME}";
 		fi
 	done
-}
-
-function hostess() {
-	case "$1" in
-		add)
-			addhost "$2" "$3" "$4"
-			;;
-		remove)
-			removehost ${*:2}
-			;;
-		*)
-			printf "
-Add and remove entries from the hosts file while leaving all other valid entries intact
-
-Usage: hostess COMMAND HOSTNAME [IP]
-
-Commands:
-    add     Add a new host entry
-    remove  Remove a host entry
-
-IP defaults to 127.0.0.1
-
-Examples:
-    hostess add example.local
-    hostess add example.local 192.168.1.1
-    hostess remove example.local
-"
-			;;
-	esac
 }
