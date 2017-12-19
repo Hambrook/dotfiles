@@ -6,6 +6,7 @@
 ##   ~ gar [<path/to/sub/>] <ext>
 ##   ~ gar templates/ twig
 ##   ~ gar twig
+##
 function gar() {
 	if [[ $1 ]]; then
 		if [[ $2 ]]; then
@@ -28,9 +29,11 @@ function gar() {
 }
 
 ### gs               Git status
+##
 alias gs="git status"
 
 ### gca              Git commit all
+##
 alias gca="git commit -a"
 
 alias gnc="git update-index --assume-unchanged"
@@ -39,37 +42,47 @@ alias git-push-release="git checkout master; git push origin master --tags; git 
 # GIT Up
 
 ### gu               Git push
+##
 alias gu="git push"
 
 ### gub              Git push all
+##
 alias gub="gu --all"
 
 ### gut              Git push tags
+##
 alias gut="gu --tags"
 
 ### gua              Git push all and tags
+##
 alias gua="gub && gut"
 
 ### gucb             Git push current branch to origin
+##
 alias gucb="gu origin \$(git-branch)"
 
 # GIT Down
 
 ### gd               Git pull
+##
 alias gd="git pull"
 
 ### gdcb             Git pull current branch to origin
+##
 alias gdcb="gd origin \$(git-branch)"
 
 # GIT Checkout
 
 ### gc               Git checkout
+##
 alias gc="git checkout"
 
 ### gcd              Git checkout develop
+##
 alias gcd="gc develop"
 
 ### gcm              Git checkout master
+##
 alias gcm="gc master"
 
 # GIT Flow
