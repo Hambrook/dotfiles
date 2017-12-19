@@ -1,0 +1,29 @@
+#!/bin/bash
+
+printf "Installing and configuring Git...\n\n"
+
+sudo apt-get install git
+
+printf "Please answer some questions so we can pre-configure Git...\n\n"
+
+printf "Your Name: " ; read git_name
+git config --global user.name "${git_name}"
+
+printf "Your Email: " ; read git_email
+git config --global user.email "${git_email}"
+
+printf "Your GitHub Username: " ; read git_user
+git config --global github.user "${git_user}"
+
+printf "Do you want to file modes to count as changes? [y/N]: " ; read git_filemode
+case "${git_filemode}" in
+    y*|Y*)
+		git config --global core.filemode true
+		;;
+    *)
+		git config --global core.filemode false
+		;;
+esac
+
+printf "\nSee the link below for information on GPG signing your commits\n"
+printf "https://help.github.com/articles/signing-commits-with-gpg/\n\n"
