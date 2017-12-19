@@ -1,8 +1,8 @@
 # http://tldp.org/LDP/abs/html/sample-bashrc.html
 
 # Easily ask for confirmation
-#	if ask "Are you sure you want to do this?"
-#		then echo "You did the thing"
+#	if ask "Are you sure you want to do this?"; then
+#		echo "You did the thing"
 #	fi
 function ask() {
     echo -n "$@" '[y/n] ' ; read ans

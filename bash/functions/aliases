@@ -1,20 +1,25 @@
 ###
 ###=== ALIASES ==================================================================
+##
 
 # BASH_RC
 ### eba              Edit .bash_aliases file using nano
+##
 alias eba="nano ~/.bash_aliases"
 
 # HOSTS
 ### eh               Edit hosts file in nano
+##
 alias eh="sudo nano /etc/hosts"
 
 # BASH
 ### ra               Reload aliases
+##
 alias ra=". ~/.profile"
 
 ### slugify          Make a valid URL slug or git branch name from potentially invalid text
 ##   ~ slugify branch name here // branch-name-here
+##
 function slugify() {
 	tmp="$@"
 	echo ${tmp//[^0-9a-zA-Z]/'-'}
@@ -22,4 +27,5 @@ function slugify() {
 
 # STOPWATCH/TIMER
 ### timer            Start a timer
+##
 alias timer='echo "Timer started. Stop with Ctrl-D." && date && time cat && date'

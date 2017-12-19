@@ -1,11 +1,13 @@
 ###
 ###=== SLACK ====================================================================
+##
 
 ### slack            Send a bot message via Slack
 #
 ##   ~ slack <room-or-user> <message> [<bot-name>] [<bot-icon>]
 ##   ~ slack general "Hello everyone" "My Bot Name" "tada"
 ##   ~ slack @joe "Hi Joe" "My Bot Name" "tada"
+##
 function slack() {
     where="$1"
     if [[ ! $where =~ ^[#@] ]] ; then

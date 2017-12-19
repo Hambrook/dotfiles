@@ -1,20 +1,25 @@
 ###
 ###=== NETWORK ==================================================================
+##
 
 # DECICES ON LOCAL NETWORK
 ### onlan            Show devices on LAN
+##
 alias onlan="sudo netdiscover -r 192.168.1.0/24 -i wlp2s0"
 
 # DECICES ON LOCAL NETWORK (QUICK)
 ### onlanq           Show devices on LAN (quick)
+##
 alias onlanq="arp -a"
 
 # MY IP
 
 ### lip              Show local IP addresses
+##
 alias lip="ifconfig | sed -En 's/127.0.0.1//;s/.*Loopback.*//;s/(^[^ ]+) +Link encap.*/\n\1/p;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p'"
 
 ### pip              Show public IP address
+##
 alias pip="curl ipecho.net/plain ; echo"
 
 # PING FIVE TIMES ONLY
@@ -22,10 +27,12 @@ alias pip="curl ipecho.net/plain ; echo"
 ###  + p5
 ##   ~ ping5 <hostname>
 ##   ~ ping5 github.com
+##
 alias ping5="ping -c 5"
 alias p5="ping5"
 
 ### urle             URL encode some text
+##
 function urle() {
 	php -r "echo urlencode('$@').\"\n\";"
 }
@@ -39,6 +46,7 @@ function urle() {
 ##   ~ hostess remove <hostname>
 ##   ~ hostess remove example.local
 ##   ~ hostess remove example.local example2.local
+##
 function hostess() {
 	case "$1" in
 		add)
@@ -77,6 +85,7 @@ Examples:
 ##   ~ addhost example.local 192.168.0.1
 ##   ~ addhost example.local 192.168.0.1 "Comment here"
 ##   ~ addhost example.local "" "Comment here, 127.0.0.1 will be used for IP"
+##
 function addhost() {
 	local HOSTNAME="$1"
 	local IP=${2:-"127.0.0.1"}
@@ -106,6 +115,7 @@ function addhost() {
 ### hashost          Check if a hostname is in the hosts file
 ##   ~ hashost <hostname>
 ##   ~ hashost example.local
+##
 function hashost() {
 	local HOSTNAME="$1"
 	local REGEXHOST=`echo "${HOSTNAME}" | sed 's/\./\\\\./g'`
@@ -121,6 +131,7 @@ function hashost() {
 ##   ~ removehost <hostname>
 ##   ~ removehost example.local
 ##   ~ removehost example.local example2.local
+##
 function removehost() {
 	for HOSTNAME in ${@}; do
 		# escape the domain for a regex pattern

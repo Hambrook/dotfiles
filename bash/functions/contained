@@ -5,9 +5,11 @@ xhost +local:docker > /dev/null
 
 ###
 ###=== CONTAINED ================================================================
+##
 
 ### atom             Run the Atom editor
 ##   ~ atom
+##
 function atom() {
 	docker run -d \
 		-v /tmp/.X11-unix/:/tmp/.X11-unix/ \
@@ -18,8 +20,9 @@ function atom() {
 		jamesnetherton/docker-atom-editor
 }
 
-### aws              AWS CLI client
+### aws              Run AWS CLI client
 ##   ~ aws help
+##
 aws(){
 	docker run -it --rm \
 		-v "${HOME}/.aws:/root/.aws" \
@@ -30,6 +33,7 @@ aws(){
 
 ### bower            Run Bower
 ##   ~ bower
+##
 function bower() {
 	TAG=alpine
 	BRANCH=alpine
@@ -45,6 +49,7 @@ function bower() {
 ### chrome           Run Google Chrome
 ##   ~ chrome
 ##   ~ chrome tor  # to route through torproxy
+##
 function chrome() {
 	# add flags for proxy if passed
 	local proxy=
@@ -93,6 +98,7 @@ function chrome() {
 
 ### chromium         Run Google Chromium
 ##   ~ chromium
+##
 function chromium() {
 	# add flags for proxy if passed
 	local proxy=
@@ -135,8 +141,9 @@ function chromium() {
 		--host-resolver-rules="$map" $args
 }
 
-### compass          Run compass
+### compass          Run Compass
 ##   ~ compass compile
+##
 function compass() {
 	docker run \
 		--rm -it \
@@ -147,8 +154,10 @@ function compass() {
 		bhrutledge/compass $@
 }
 
-### composer         Run composer
+### composer         Run Composer with PHP7
+##   + composer7
 ##   ~ composer install
+##
 function composer() {
 	docker run \
 		--rm -it \
@@ -159,8 +168,9 @@ function composer() {
 }
 alias composer7="composer"
 
-### composer5        Run composer with PHP5
+### composer5        Run Composer with PHP5
 ##   ~ composer5 install
+##
 function composer5() {
 	docker run \
 		--rm -it \
@@ -173,8 +183,9 @@ function composer5() {
 		composer/composer:php5-alpine $@
 }
 
-### curlt            Run curl through Tor
+### curlt            Run cURL through Tor
 ##   ~ curlt
+##
 function curlt() {
 	d_relies_on torproxy
 	proxy="torproxy:9050"
@@ -183,6 +194,7 @@ function curlt() {
 
 ### dropbox          Run Dropbox
 ##   ~ dropbox (on first run be sure to run "docker logs -f dropbox" and activate it via the link shown)
+##
 function dropbox() {
 	docker run -d \
 		--restart=always \
@@ -195,6 +207,7 @@ function dropbox() {
 
 ### firefox          Run Firefox
 ##   ~ firefox
+##
 function firefox() {
 	d_del_stopped firefox
 
@@ -220,6 +233,7 @@ function firefox() {
 
 ### gimp             Run Gimp
 ##   ~ gimp
+##
 function gimp() {
 	d_del_stopped gimp
 
@@ -237,6 +251,7 @@ function gimp() {
 
 ### grunt            Run Grunt
 ##   ~ grunt
+##
 function grunt() {
 	TAG=alpine
 	BRANCH=alpine
@@ -251,6 +266,7 @@ function grunt() {
 
 ### gulp             Run Gulp
 ##   ~ gulp
+##
 function gulp() {
 	TAG=alpine
 	BRANCH=alpine
@@ -265,6 +281,7 @@ function gulp() {
 
 ### node             Run Node
 ##   ~ node
+##
 function node() {
 	TAG=alpine
 	BRANCH=alpine
@@ -279,6 +296,7 @@ function node() {
 
 ### npm              Run NPM
 ##   ~ npm
+##
 function npm() {
 	TAG=alpine
 	BRANCH=alpine
@@ -291,8 +309,9 @@ function npm() {
 	fi
 }
 
-### php              PHP CLI
+### php              Run PHP CLI
 ##   ~ php index.php
+##
 function php() {
 	docker run \
 		--rm \
@@ -303,6 +322,7 @@ function php() {
 
 ### phpcs            Run phpcs (PHP Code Sniffer) on the current directory
 ##   ~ phpcs [options]
+##
 function phpcs() {
 	docker run \
 		--rm \
@@ -313,6 +333,7 @@ function phpcs() {
 
 ### phpmd            Run phpmd (PHP Mess Detecter) on the current directory
 ##   ~ phpmd [options]
+##
 function phpmd() {
 	docker run \
 		--rm \
@@ -324,6 +345,7 @@ function phpmd() {
 
 ### phpunit          Run phpunit
 ##   ~ phpunit
+##
 function phpunit() {
 	docker run \
 	--rm \
@@ -335,6 +357,7 @@ function phpunit() {
 ### sass             Run sass to build assets
 ##   ~ sass
 ##   ~ sass --style compressed --watch app/sass/styles.scss:app/css/styles.css
+##
 function sass() {
 	docker run \
 		-u `id -u $USER` \
@@ -346,6 +369,7 @@ function sass() {
 
 ### slack            Run Slack
 ##   ~ slack
+##
 function slack() {
 	d_del_stopped slack
 
@@ -366,6 +390,7 @@ function slack() {
 
 ### spotify          Run Spotify
 ##   ~ spotify
+##
 function spotify() {
 	d_del_stopped spotify
 
@@ -385,6 +410,7 @@ function spotify() {
 
 ### tor              Run Tor
 ##   ~ tor
+##
 function tor() {
 	d_del_stopped tor
 
@@ -402,6 +428,7 @@ function tor() {
 
 ### torbrowser       Run Tor Browser (configured Firefox)
 ##   ~ torbrowser
+##
 function torbrowser() {
 	d_del_stopped torbrowser
 
@@ -418,6 +445,7 @@ function torbrowser() {
 
 ### torproxy         Run Tor Proxy for use by other containers
 ##   ~ torproxy
+##
 function torproxy() {
 	d_del_stopped torproxy
 
@@ -434,6 +462,7 @@ function torproxy() {
 
 ### transmission     Run Transmission
 ##   ~ transmission
+##
 function transmission() {
 	d_del_stopped transmission
 
@@ -452,7 +481,8 @@ function transmission() {
 }
 
 ### unifi            Run Unifi server
-##   ~ transmission
+##   ~ unifi
+##
 function unifi() {
 	d_del_stopped unifi
 
@@ -465,6 +495,7 @@ function unifi() {
 
 ### virtualbox       Run VirtualBox
 ##   ~ virtualbox
+##
 function virtualbox() {
 	d_del_stopped virtualbox
 
@@ -489,6 +520,7 @@ function virtualbox() {
 
 ### wireshark        Run Wireshark
 ##   ~ wireshark
+##
 function wireshark() {
 	d_del_stopped wireshark
 
@@ -501,8 +533,9 @@ function wireshark() {
 		jess/wireshark
 }
 
-### vscode           Visual Studio Code
+### vscode           Run Visual Studio Code
 ##   ~ vscode
+##
 vscode(){
 	del_stopped vscode
 
@@ -516,6 +549,7 @@ vscode(){
 
 ### vlc              Run VLC
 ##   ~ vlc
+##
 function vlc() {
 	d_del_stopped vlc
 	d_relies_on pulseaudio

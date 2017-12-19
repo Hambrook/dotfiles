@@ -1,18 +1,22 @@
 ###
 ###=== DOCKER ===================================================================
+##
 
 ### d_cleanup        Clean old containers and images
+##
 function d_cleanup() {
 	docker rm -v $(docker ps --filter status=exited -q 2>/dev/null) 2>/dev/null
 	docker rmi $(docker images --filter dangling=true -q 2>/dev/null) 2>/dev/null
 }
 
 ### d_gc             Garbage collection
+##
 function d_gc() {
 	docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v /etc:/etc spotify/docker-gc
 }
 
 ### d_del_stopped    Delete stopped containers
+##
 function d_del_stopped() {
 	local name=$1
 	local state=$(docker inspect --format "{{.State.Running}}" $name 2>/dev/null)
@@ -20,6 +24,12 @@ function d_del_stopped() {
 	if [[ "$state" == "false" ]]; then
 		docker rm $name
 	fi
+}
+
+### d_stop_all       Stop all running containers
+##
+function d_stop_all() {
+	docker stop $(docker ps --format "{{.Names}}")
 }
 
 # Internal helper for functions in the contained-apps file
@@ -34,9 +44,4 @@ function d_relies_on() {
 			$container
 		fi
 	done
-}
-
-### d_stop_all       Stop all running containers
-function d_stop_all() {
-	docker stop $(docker ps --format "{{.Names}}")
 }

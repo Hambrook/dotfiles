@@ -1,10 +1,12 @@
 ###
 ###=== DIRS =====================================================================
+##
 
 # CHANGE DIRECTORY AND LIST
 ### cdl              Enter a directory then list the contents
 ##   ~ cdl <new-dir-name>
 ##   ~ cdl src
+##
 function cdl() {
 	cd "$@"
 	ll "$@"
@@ -12,11 +14,13 @@ function cdl() {
 
 # DIRECTORY LISTING
 ### ll               Human friendly directory listing
+##
 alias ll="ls -Ahl"
 
 # DIRECTORY AND DRIVE SIZES
 ### drivesize        Display the capacity data for the current drive
 ###  + dsize
+##
 alias drivesize="df -h"
 alias dsize="drivesize"
 
@@ -25,6 +29,7 @@ alias dsize="drivesize"
 ###  + fsize
 ##   ~ dirsize <dir-name>
 ##   ~ dirsize src
+##
 alias dirsize="du -sh"
 alias foldersize="dirsize"
 alias fsize="dirsize"
@@ -33,14 +38,17 @@ alias fsize="dirsize"
 ### mkdir            Make dirs recursively
 ##   ~ mkdir <new-dir-path>
 ##   ~ mkdir src/lib/test
+##
 alias mkdir="mkdir -p"
 
 ### md               Alias for mkdir
+##
 alias md="mkdir"
 
 ### mde              Make then enter a directory
 ##   ~ mde <new-dir-name>
 ##   ~ mde src
+##
 function mde() {
 	md "$@"
 	cd "$@"

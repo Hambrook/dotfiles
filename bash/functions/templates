@@ -1,5 +1,6 @@
 ###
 ###=== TEMPLATES ================================================================
+##
 
 ### template         List templates or apply a template to current dir
 #
@@ -8,6 +9,7 @@
 ##   ~ template [<template-name>] [<new-name>]
 ##   ~ template ht-as
 ##   ~ template ht-as .htaccess-new
+##
 function template() {
 	echo ""
 	local found=false
