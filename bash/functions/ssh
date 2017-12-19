@@ -1,9 +1,10 @@
 ###
 ###=== SSH ======================================================================
+##
 
 # SSH
-### sshhost          List all hosts aliases from SSH config
-##   ~ sshhost
+### sshhosts         List all hosts aliases from SSH config
+##   ~ sshhosts
 function sshhosts() {
-	grep "Host " .ssh/config  | sed -e "s/^Host //g"
+	grep "Host " ~/.ssh/config  | sed -e "s/^Host //g"
 }
