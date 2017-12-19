@@ -1,7 +1,9 @@
 ###
 ###=== FONTS ====================================================================
+##
 
 ### reloadfonts      Reload font cache
+##
 function reloadfonts() {
 	fc-cache -f -v
 }

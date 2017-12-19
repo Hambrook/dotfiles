@@ -1,14 +1,17 @@
 ###
 ###=== FILES ====================================================================
+##
 
 # CLEAN OUT THE TRASH
 ### cleanup          Clean up junk files from Windows, Mac and Linux
+##
 function cleanup() {
 	find . -name '*.DS_Store' -type f -delete && find . -name '*_MACOSX' -type d -delete
 }
 
 # CREATE DATA URL FROM FILE
 ### dataurl          Convert a file into a data url
+##
 function dataurl() {
 	local mimeType=$(file -b --mime-type "${1}")
 	if [[ $mimeType == text/* ]]; then
@@ -21,6 +24,7 @@ function dataurl() {
 ### rs               Rsync with default flags
 ##   ~ rs <source> <destination>
 ##   ~ rs user@server:path/here/ local/path
+##
 function rs() {
 	rsync -rtch --delete --force --stats --progress
 }
@@ -29,6 +33,7 @@ function rs() {
 ### tarup            Compress a directory to a tar file
 ##   ~ tarup <new-file> <spource-dir>
 ##   ~ tarup new.tar.gz src/
+##
 function tarup() {
 	tar cvfz
 }
@@ -36,11 +41,13 @@ function tarup() {
 ### untar            Extract a tar file
 ##   ~ tarup <file>
 ##   ~ tarup file.tar.gz
+##
 function untar() {
 	tar xvfz
 }
 
 ### md2html          Convert all MD files in a directory to HTML
+##
 function md2html() {
 	find "${1}" -name "*.md" -type f -exec sh -c 'markdown "${0}" > "${2}${0%.md}.html"' {} \;
 }
@@ -49,6 +56,7 @@ function md2html() {
 ### swap             Swap two filenames around
 ##   ~ swap <file1> <file2>
 ##   ~ swap index.php index-old.php
+##
 function swap() {
 	# Swap 2 filenames around, if they exist (from Uzi's bashrc).
 	local TMPFILE=tmp.$$

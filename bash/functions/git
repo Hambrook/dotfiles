@@ -1,5 +1,6 @@
 ###
 ###=== GIT ======================================================================
+##
 
 ### gar              Git add recursive by extension
 ##   ~ gar [<path/to/sub/>] <ext>
@@ -80,18 +81,21 @@ gitflowrelease() {
 ### gr               Git flow release
 ##   ~ gr <version>
 ##   ~ gr 1.3.37
+##
 alias gr="gitflowrelease"
 
 ### git-new-branch   Create a new Git branch with any text
+###  + gnb
 ##   ~ git-new-branch new-branch-name
 ##   ~ git-new-branch new branch name
+##
 function git-new-branch() {
 	git checkout -b $(slugify $@)
 }
-###  + gnb
 alias gnb="git-new-branch"
 
 ### git-branch       Show the current Git branch
+##
 function git-branch() {
     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
 }
@@ -102,12 +106,14 @@ function get-git-branch-for-prompt() {
 
 # GIT
 ### git-undo         Undo a commit
+##
 alias git-undo="git reset --soft 'HEAD^'"
 
 
 # Open a repo's BitBucket or GitHub page. append "src" or "commits" etc to jump to sections (tested on BitBucket)
 
 ### repo             Open a repo in the browser
+##
 function repo() {
 	local giturl=$(git config --get remote.origin.url | sed 's/git@/\/\//g' | sed 's/.git$//' | sed 's/https://g' | sed 's/:/\//g')
 	if [[ $giturl == "" ]]; then
@@ -123,6 +129,8 @@ function repo() {
 }
 
 ### repohome         Go up to the repo root dir
+###  + repoh
+##
 function repohome() {
     old_pwd="$PWD";
     while [ 1 ]; do
@@ -140,6 +148,4 @@ function repohome() {
         done
     done
 }
-
-###  + repoh
 alias repoh="repohome"
