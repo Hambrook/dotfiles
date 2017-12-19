@@ -30,72 +30,99 @@ function urle() {
 	php -r "echo urlencode('$@').\"\n\";"
 }
 
-### addhost          URL encode some text
-##   ~ addhost <hostname> [<ip>]
+### addhost          Add a hostname (option IP, option comment) to hosts file
+##   ~ addhost HOSTNAME [<ip>] [<comment>]
 ##   ~ addhost mytestdefaulttolocal
-##   ~ addhost mytestmanual 192.168.0.1
-# Adapted from: https://gist.github.com/irazasyed/a7b0a079e7727a4315b9
+##   ~ addhost example.local 192.168.0.1
+##   ~ addhost example.local 192.168.0.1 "Comment here"
+##   ~ addhost example.local "" "Comment here, 127.0.0.1 will be used for IP"
 function addhost() {
-	HOSTNAME=$1
-	IP=${2:-"127.0.0.1"}
-	HOSTS_LINE="$IP\t$HOSTNAME"
+	local HOSTNAME="$1"
+	local IP=${2:-"127.0.0.1"}
+	local COMMENT=${3:-""}
+	local REGEXHOST=`echo "${HOSTNAME}" | sed 's/\./\\\\./g'`
+	if [ -n "${COMMENT}" ]; then
+		COMMENT=" - ${COMMENT}"
+	fi
+	local HOSTS_LINE=$(printf "${IP}\t${HOSTNAME}$(date +"\t# %F %T")${COMMENT}")
 
 	# Remove it if it's already there so we can update
-	if [ -n "$(grep $HOSTNAME /etc/hosts)" ]; then
-		removehost "$HOSTNAME"
+	if [ -n "$(grep -P "\s${REGEXHOST}(\s|$)" /etc/hosts)" ]; then
+		removehost "${HOSTNAME}"
 	fi
 
-	printf "Adding $HOSTNAME to your /etc/hosts\n";
-	sudo -- sh -c -e "echo '$HOSTS_LINE' >> /etc/hosts";
+	printf "Adding \"${HOSTNAME}\" to your /etc/hosts\n";
+	echo "$HOSTS_LINE" >> /etc/hosts
 
 	if [ -n "$(grep $HOSTNAME /etc/hosts)" ]; then
-		printf "%s was added succesfully \n\t%s\n" "$HOSTNAME" "$(grep $HOSTNAME /etc/hosts)";
+		printf "\"%s\" was added succesfully \n\t%s\n" "$HOSTNAME"
+		grep -P "\s${REGEXHOST}(\s|$)" /etc/hosts
 	else
-		printf "Failed to Add %s, Try again!\n" "$HOSTNAME";
+		printf "Failed to Add \"%s\", Try again!\n" "$HOSTNAME"
 	fi
 }
 
 function hashost() {
-	HOSTNAME=$1
-	if [ -n "$(grep $HOSTNAME /etc/hosts)" ]; then
-		printf "%s exists: \n\t%s\n" "$HOSTNAME" "$(grep $HOSTNAME /etc/hosts)";
+	local HOSTNAME="$1"
+	local REGEXHOST=`echo "${HOSTNAME}" | sed 's/\./\\\\./g'`
+	if [ -n "$(grep -P "\s${REGEXHOST}(\s|$)" /etc/hosts)" ]; then
+		printf "\"%s\" exists: \n\t%s\n" "${HOSTNAME}"
+		grep -P "\s${REGEXHOST}(\s|$)" /etc/hosts
 	else
-		printf "%s does not exist\n" "$HOSTNAME";
+		printf "\"%s\" does not exist\n" "${HOSTNAME}";
 	fi
 }
 
-### removehost       URL encode some text
+### removehost       Remove a hostname from /etc/hosts and clean up the file
 ##   ~ removehost <hostname>
 ##   ~ removehost mytest
-# Adapted from: https://gist.github.com/irazasyed/a7b0a079e7727a4315b9
 function removehost() {
-	HOSTNAME="$1"
-	if [ -n "$(grep $HOSTNAME /etc/hosts)" ]; then
-		printf "Found %s in your /etc/hosts, Removing now...\n" "$HOSTNAME";
-		sudo sed -i".bak" "/$HOSTNAME/d" /etc/hosts
-	else
-		printf "%s was not found in your /etc/hosts\n" "$HOSTNAME";
-	fi
+	for HOSTNAME in ${@}; do
+		# escape the domain for a regex pattern
+		local REGEXHOST=`echo "${HOSTNAME}" | sed 's/\./\\\\./g'`
+		if [ -n "$(grep -P "\s${REGEXHOST}(\s|$)" /etc/hosts)" ]; then
+			printf "Found \"%s\" in your /etc/hosts, Removing now...\n" "${HOSTNAME}";
+			# update the file
+			#  - remove the domain name from end of line
+			#  - remove the domain name from within line
+			#  - remove "empty" lines (IP and maybe comment)
+			sudo sed -i -r "\
+			s/\s${REGEXHOST}$//; \
+			s/(\s)${REGEXHOST}\s/\1/; \
+			s/^([0-9]+\.){3}[0-9]+\s*(#.*)?$//" /etc/hosts
+			# remove duplicate empty lines
+			sudo sed -i "/^$/N;/^\n$/D" /etc/hosts
+		else
+			printf "Could not find \"%s\" in your /etc/hosts\n" "${HOSTNAME}";
+		fi
+	done
 }
 
 function hostess() {
 	case "$1" in
 		add)
-			addhost "$2" "$3"
+			addhost "$2" "$3" "$4"
 			;;
 		remove)
-			removehost "$2"
+			removehost ${*:2}
 			;;
 		*)
-			echo "Add and remove entries from the hosts file"
-			echo
-			echo "Usage: hostess [add|remove] [hostname] [ip]"
-			echo
-			echo "IP defaults to 127.0.0.1"
-			echo
-			echo "Examples:"
-			echo -e "\thostess add testing.com"
-			echo -e "\thostess remove testing.com 192.168.1.1"
+			printf "
+Add and remove entries from the hosts file while leaving all other valid entries intact
+
+Usage: hostess COMMAND HOSTNAME [IP]
+
+Commands:
+    add     Add a new host entry
+    remove  Remove a host entry
+
+IP defaults to 127.0.0.1
+
+Examples:
+    hostess add example.local
+    hostess add example.local 192.168.1.1
+    hostess remove example.local
+"
 			;;
 	esac
 }
