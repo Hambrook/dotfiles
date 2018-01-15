@@ -159,12 +159,25 @@ function compass() {
 ##   ~ composer install
 ##
 function composer() {
+	local PHPVER="7.2"
 	docker run \
-		--rm -it \
-		--name composer \
-		-v $(pwd):/app \
-		-v ~/.ssh:/root/.ssh:ro \
-		composer/composer:alpine $@
+		--rm \
+		-it \
+		--volume $(pwd):/app \
+		prooph/composer:$PHPVER $@
+}
+alias composer7="composer"
+
+### composer71       Run Composer with PHP7
+##   ~ composer71 install
+##
+function composer71() {
+	local PHPVER="7.1"
+	docker run \
+		--rm \
+		-it \
+		--volume $(pwd):/app \
+		prooph/composer:$PHPVER $@
 }
 alias composer7="composer"
 
