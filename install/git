@@ -24,10 +24,10 @@ git config --global github.user "${git_user}"
 
 printf "Do you want to file modes to count as changes? [y/N]: " ; read git_filemode
 case "${git_filemode}" in
-    y*|Y*)
+	y*|Y*)
 		git config --global core.filemode true
 		;;
-    *)
+	*)
 		git config --global core.filemode false
 		;;
 esac
