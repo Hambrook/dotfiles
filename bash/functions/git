@@ -117,10 +117,13 @@ function get-git-branch-for-prompt() {
     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
 }
 
-# GIT
 ### git-undo         Undo a commit
 ##
 alias git-undo="git reset --soft 'HEAD^'"
+
+### git-reset-modded Reset modified files
+##
+alias git-reset-modded="git checkout `git ls-files -m`"
 
 
 # Open a repo's BitBucket or GitHub page. append "src" or "commits" etc to jump to sections (tested on BitBucket)
