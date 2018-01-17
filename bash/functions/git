@@ -123,7 +123,9 @@ alias git-undo="git reset --soft 'HEAD^'"
 
 ### git-reset-modded Reset modified files
 ##
-alias git-reset-modded="git checkout `git ls-files -m`"
+function git-reset-modded() {
+	git checkout `git ls-files -m`
+}
 
 
 # Open a repo's BitBucket or GitHub page. append "src" or "commits" etc to jump to sections (tested on BitBucket)
