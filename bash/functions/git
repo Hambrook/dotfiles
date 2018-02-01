@@ -61,6 +61,10 @@ alias gua="gub && gut"
 ##
 alias gucb="gu origin \$(git-branch)"
 
+### gusb             Git push current branch and set upstream
+##
+alias gusb="gu --set-upstream origin \$(git-branch)"
+
 # GIT Down
 
 ### gd               Git pull
