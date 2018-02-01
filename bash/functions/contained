@@ -281,7 +281,7 @@ function grunt() {
 ##   ~ gulp
 ##
 function gulp() {
-	TAG=alpine
+	TAG=latest
 	BRANCH=alpine
 
 	if [ "self-update" = "$1" ]; then
