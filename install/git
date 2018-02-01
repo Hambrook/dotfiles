@@ -32,5 +32,15 @@ case "${git_filemode}" in
 		;;
 esac
 
+printf "Do you want to use MATCHING for pushing branches? [Y/n]: " ; read git_pushmode
+case "${git_pushmode}" in
+	y*|Y*)
+		git config --global push.default matching
+		;;
+	*)
+		git config --global push.default simple
+		;;
+esac
+
 printf "\nSee the link below for information on GPG signing your commits\n"
 printf "https://help.github.com/articles/signing-commits-with-gpg/\n\n"
