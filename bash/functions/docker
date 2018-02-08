@@ -26,6 +26,20 @@ function d_del_stopped() {
 	fi
 }
 
+### d_add_host_entry Create a hostfile entry of a container by name. Will use the container name as the hostname by default
+##   ~ d_add_host_entry <container> [<hostname>]
+##
+function d_add_host_entry() {
+	echo hostess add ${2:-$1} $(d_get_ip $1)
+}
+
+### d_get_ip         Get IP of running container by name
+##   ~ d_get_ip <container>
+##
+function d_get_ip() {
+	docker inspect --format '{{.NetworkSettings.Networks.bridge.IPAddress}}' $1
+}
+
 ### d_stop_all       Stop all running containers
 ##
 function d_stop_all() {
