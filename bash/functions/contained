@@ -471,7 +471,7 @@ function torproxy() {
 		--name torproxy \
 		jess/tor-proxy
 
-	hostess add torproxy $(docker inspect --format "{{.NetworkSettings.Networks.bridge.IPAddress}}" torproxy)
+	d_add_host_entry torproxy
 }
 
 ### transmission     Run Transmission
@@ -490,7 +490,7 @@ function transmission() {
 		--name transmission \
 		jess/transmission
 
-	hostess add transmission $(docker inspect --format "{{.NetworkSettings.Networks.bridge.IPAddress}}" transmission)
+	d_add_host_entry transmission
 	browser-exec "http://transmission:9091"
 }
 
