@@ -212,10 +212,11 @@ function dropbox() {
 	docker run -d \
 		--restart=always \
 		--name=dropbox \
-		-e DBOX_UID=`id -u`  \
-		-e DBOX_GID=`id -g` \
+		-e UID=`id -u`  \
+		-e GID=`id -g` \
 		-v ~/Dropbox:/dbox/Dropbox \
-		janeczku/dropbox
+		-v ~/.dropbox:/dbox/.dropbox \
+		axllent/alpine-dropbox
 }
 
 ### firefox          Run Firefox
