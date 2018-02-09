@@ -30,7 +30,7 @@ function d_del_stopped() {
 ##   ~ d_add_host_entry <container> [<hostname>]
 ##
 function d_add_host_entry() {
-	echo hostess add ${2:-$1} $(d_get_ip $1)
+	hostess add ${2:-$1} $(d_get_ip $1)
 }
 
 ### d_get_ip         Get IP of running container by name
