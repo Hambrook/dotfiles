@@ -164,20 +164,7 @@ function composer() {
 		--rm \
 		-it \
 		--volume $(pwd):/app \
-		prooph/composer:$PHPVER $@
-}
-alias composer7="composer"
-
-### composer71       Run Composer with PHP7
-##   ~ composer71 install
-##
-function composer71() {
-	local PHPVER="7.1"
-	docker run \
-		--rm \
-		-it \
-		--volume $(pwd):/app \
-		prooph/composer:$PHPVER $@
+		prooph/composer:$PHPVER --ignore-platform-reqs $@
 }
 alias composer7="composer"
 
@@ -193,7 +180,7 @@ function composer5() {
 		-v ~/.ssh:/root/.ssh:ro \
 		-v /etc/passwd:/etc/passwd:ro \
 		-v /etc/group:/etc/group:ro \
-		composer/composer:php5-alpine $@
+		composer/composer:php5-alpine --ignore-platform-reqs $@
 }
 
 ### curlt            Run cURL through Tor
