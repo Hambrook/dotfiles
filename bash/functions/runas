@@ -2,23 +2,30 @@
 ###=== RUNAS ====================================================================
 ##
 
-#AS WWW-DATA
+# AS WWW-DATA
 ### aswww            Run as www-data
 ###  + asw
 ##   ~ aswww <command>
 ##   ~ aswww git pull
 ##
 function aswww() {
-    sudo -H -u www-data -- "${@:1}"
+	sudo -H -u www-data -- "${@:1}"
 }
 alias asw=aswww
 
 
-#RUN AS
+# RUN AS
 ### runas            Run a command as another user
 ##   ~ runas <user> <command>
 ##   ~ runas www-data mkdir ...
 ##
 function runas() {
-    sudo -H -u $1 -- "${@:2}"
+	if (( $# < 2 )); then
+		printf "Run a command as another user
+
+Usage: runas USER COMMAND [PARAMS...]
+"
+		return
+	fi
+	sudo -H -u $1 -- "${@:2}"
 }
