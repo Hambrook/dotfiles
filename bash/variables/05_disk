@@ -19,4 +19,4 @@ function disk_color() {
 		echo -en ${Cyan}
 		# Current directory is size '0' (like /proc, /sys etc).
 	fi
-
+}
