@@ -9,34 +9,34 @@
 ##   ~ slack @joe "Hi Joe" "My Bot Name" "tada"
 ##
 function slack() {
-    where="$1"
-    if [[ ! $where =~ ^[#@] ]] ; then
-        where="#${where}"
-    fi
+	where="$1"
+	if [[ ! $where =~ ^[#@] ]] ; then
+		where="#${where}"
+	fi
 
-    user="Space Bot"
-    if [[ $3 ]] ; then
-        user="${3}"
-    fi
+	user="Space Bot"
+	if [[ $3 ]] ; then
+		user="${3}"
+	fi
 
-    icon="ghost"
-    if [[ $4 ]] ; then
-        icon="${4}"
-    fi
+	icon="ghost"
+	if [[ $4 ]] ; then
+		icon="${4}"
+	fi
 
-    curl -sSX POST --data-urlencode "payload={\
-        \"channel\": \"${where}\",\
-        \"username\": \"${user}\",\
-        \"text\": \"${2}\",\
-        \"icon_emoji\":\
-        \":${icon}:\
-        \"}"\
-        $SLACK_API_URL > /dev/null
+	curl -sSX POST --data-urlencode "payload={\
+		\"channel\": \"${where}\",\
+		\"username\": \"${user}\",\
+		\"text\": \"${2}\",\
+		\"icon_emoji\":\
+		\":${icon}:\
+		\"}"\
+		$SLACK_API_URL > /dev/null
 }
 
 function p1() {
-    slack "${1}" "${2}" "Assistant Joe" man
+	slack "${1}" "${2}" "Assistant Joe" man
 }
 function p2() {
-    slack "${1}" "${2}" "Assistant Jane" woman
+	slack "${1}" "${2}" "Assistant Jane" woman
 }

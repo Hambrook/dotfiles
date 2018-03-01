@@ -2,9 +2,9 @@
 
 # Test connection type:
 if [ -n "${SSH_CONNECTION}" ]; then
-    CNX=${BCyan}        # Connected on remote machine, via ssh (good).
+	CNX=${BCyan}        # Connected on remote machine, via ssh (good).
 elif [[ "${DISPLAY%%:0*}" != "" ]]; then
-    CNX=${ALERT}        # Connected on remote machine, not via ssh (bad).
+	CNX=${ALERT}        # Connected on remote machine, not via ssh (bad).
 else
-    CNX=${BGreen}       # Connected on local machine.
+	CNX=${BGreen}       # Connected on local machine.
 fi

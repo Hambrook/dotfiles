@@ -4,22 +4,22 @@ DOTFILESHOME="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && cd .. && pwd )"
 shopt -s nullglob
 for f in $DOTFILESHOME/bash/variables/*
 do
-    . $f
+	. $f
 done
 shopt -u nullglob
 
 # include user variables from repo and home
 if [ -f "$DOTFILESHOME/.variables" ] ; then
-    . "$DOTFILESHOME/.variables"
+	. "$DOTFILESHOME/.variables"
 fi
 if [ -f "~/.variables" ] ; then
-    . "~/.variables"
+	. "~/.variables"
 fi
 
 # Bash aliases, functions and helpers
 shopt -s nullglob
 for f in $DOTFILESHOME/bash/functions/*
 do
-    . $f
+	. $f
 done
 shopt -u nullglob

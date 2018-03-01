@@ -93,7 +93,7 @@ alias gcm="gc master"
 alias grs="git flow release start"
 alias grf="git flow release finish"
 gitflowrelease() {
-    grs $1 && grf $1
+	grs $1 && grf $1
 }
 ### gr               Git flow release
 ##   ~ gr <version>
@@ -114,11 +114,11 @@ alias gnb="git-new-branch"
 ### git-branch       Show the current Git branch
 ##
 function git-branch() {
-    git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
+	git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
 }
 
 function get-git-branch-for-prompt() {
-    git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+	git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
 }
 
 ### git-undo         Undo a commit
@@ -154,20 +154,20 @@ function repo() {
 ###  + repoh
 ##
 function repohome() {
-    old_pwd="$PWD";
-    while [ 1 ]; do
-        cd ..
-        if [ "$PWD" == "/" ]; then
-            cd "$old_pwd"
-            echo "No repository found, returned to $old_pwd"
-            return 1
-        fi
-        for repo in ".git" ".hg"; do
-            if [ -d "$repo" ]; then
-                echo "Found $repo at $PWD"
-                return 0;
-            fi
-        done
-    done
+	old_pwd="$PWD";
+	while [ 1 ]; do
+		cd ..
+		if [ "$PWD" == "/" ]; then
+			cd "$old_pwd"
+			echo "No repository found, returned to $old_pwd"
+			return 1
+		fi
+		for repo in ".git" ".hg"; do
+			if [ -d "$repo" ]; then
+				echo "Found $repo at $PWD"
+				return 0;
+			fi
+		done
+	done
 }
 alias repoh="repohome"

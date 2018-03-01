@@ -1,23 +1,22 @@
 # http://tldp.org/LDP/abs/html/sample-bashrc.html
 
 # Returns a color according to free disk space in $PWD.
-function disk_color()
-{
-    if [ ! -w "${PWD}" ] ; then
-        echo -en ${Red}
-        # No 'write' privilege in the current directory.
-    elif [ -s "${PWD}" ] ; then
-        local used=$(command df -P "$PWD" |
-                   awk 'END {print $5} {sub(/%/,"")}')
-        if [ ${used} -gt 95 ]; then
-            echo -en ${ALERT}           # Disk almost full (>95%).
-        elif [ ${used} -gt 90 ]; then
-            echo -en ${BRed}            # Free disk space almost gone.
-        else
-            echo -en ${BCyan}           # Free disk space is ok.
-        fi
-    else
-        echo -en ${Cyan}
-        # Current directory is size '0' (like /proc, /sys etc).
-    fi
-}
+function disk_color() {
+	if [ ! -w "${PWD}" ] ; then
+		echo -en ${Red}
+		# No 'write' privilege in the current directory.
+	elif [ -s "${PWD}" ] ; then
+		local used=$(command df -P "$PWD" |
+				   awk 'END {print $5} {sub(/%/,"")}')
+		if [ ${used} -gt 95 ]; then
+			echo -en ${ALERT}           # Disk almost full (>95%).
+		elif [ ${used} -gt 90 ]; then
+			echo -en ${BRed}            # Free disk space almost gone.
+		else
+			echo -en ${BCyan}           # Free disk space is ok.
+		fi
+	else
+		echo -en ${Cyan}
+		# Current directory is size '0' (like /proc, /sys etc).
+	fi
+

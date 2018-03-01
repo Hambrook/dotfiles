@@ -1,11 +1,10 @@
 # http://tldp.org/LDP/abs/html/sample-bashrc.html
 
 # Returns a color according to running/suspended jobs.
-function job_color()
-{
-    if [ $(jobs -s | wc -l) -gt "0" ]; then
-        echo -en ${BRed}
-    elif [ $(jobs -r | wc -l) -gt "0" ] ; then
-        echo -en ${BCyan}
-    fi
+function job_color() {
+	if [ $(jobs -s | wc -l) -gt "0" ]; then
+		echo -en ${BRed}
+	elif [ $(jobs -r | wc -l) -gt "0" ] ; then
+		echo -en ${BCyan}
+	fi
 }
