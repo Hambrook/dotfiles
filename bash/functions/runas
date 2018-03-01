@@ -12,3 +12,13 @@ function aswww() {
     sudo -H -u www-data -- "${@:1}"
 }
 alias asw=aswww
+
+
+#RUN AS
+### runas            Run a command as another user
+##   ~ runas <user> <command>
+##   ~ runas www-data mkdir ...
+##
+function runas() {
+    sudo -H -u $1 -- "${@:2}"
+}
