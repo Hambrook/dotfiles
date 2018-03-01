@@ -21,7 +21,7 @@ alias ra=". ~/.profile"
 ##   ~ slugify branch name here // branch-name-here
 ##
 function slugify() {
-	tmp="$@"
+	local tmp="$@"
 	echo ${tmp//[^0-9a-zA-Z]/'-'}
 }
 
@@ -29,3 +29,17 @@ function slugify() {
 ### timer            Start a timer
 ##
 alias timer='echo "Timer started. Stop with Ctrl-D." && date && time cat && date'
+
+# GUAKE - Insert
+### quake-toggle     Toggle the hotkey that toggles Guake between F9 and Insert
+##
+function guake-toggle() {
+	local newKey="F9"
+	local oldKey="$(gconftool --get /apps/guake/keybindings/global/show_hide)"
+
+	if [ "$oldKey" = "F9" ]; then
+		newKey="Insert"
+	fi
+	gconftool --type string --set /apps/guake/keybindings/global/show_hide "$newKey"
+	echo "Guake visibility toggle key is now \"$newKey\""
+}
