@@ -189,7 +189,6 @@ function composer71() {
 		-v ~/.config/composer:/root/composer \
 		prooph/composer:$PHPVER $PARAM_FIRST $@
 }
-alias composer7="composer"
 
 ### composer5        Run Composer with PHP5
 ##   ~ composer5 install
