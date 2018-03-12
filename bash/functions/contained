@@ -155,16 +155,39 @@ function compass() {
 }
 
 ### composer         Run Composer with PHP7
-##   + composer7
 ##   ~ composer install
+##   + composer7
 ##
 function composer() {
 	local PHPVER="7.2"
+	local PARAM_FIRST=""
+	if [[ "$1" == "install" || "$1" == "remove" || "$1" == "require" || "$1" == "update" ]]; then
+		PARAM_FIRST="--ignore-platform-reqs"
+	fi
 	docker run \
 		--rm \
 		-it \
-		--volume $(pwd):/app \
-		prooph/composer:$PHPVER --ignore-platform-reqs $@
+		-v $(pwd):/app \
+		-v ~/.config/composer:/root/composer \
+		prooph/composer:$PHPVER $PARAM_FIRST $@
+}
+alias composer7="composer"
+
+### composer71       Run Composer with PHP7.1
+##   ~ composer71 install
+##
+function composer71() {
+	local PHPVER="7.1"
+	local PARAM_FIRST=""
+	if [[ "$1" == "install" || "$1" == "remove" || "$1" == "require" || "$1" == "update" ]]; then
+		PARAM_FIRST="--ignore-platform-reqs"
+	fi
+	docker run \
+		--rm \
+		-it \
+		-v $(pwd):/app \
+		-v ~/.config/composer:/root/composer \
+		prooph/composer:$PHPVER $PARAM_FIRST $@
 }
 alias composer7="composer"
 
@@ -172,6 +195,10 @@ alias composer7="composer"
 ##   ~ composer5 install
 ##
 function composer5() {
+	local PARAM_FIRST=""
+	if [[ "$1" == "install" || "$1" == "remove" || "$1" == "require" || "$1" == "update" ]]; then
+		PARAM_FIRST="--ignore-platform-reqs"
+	fi
 	docker run \
 		--rm -it \
 		--name composer \
@@ -180,7 +207,7 @@ function composer5() {
 		-v ~/.ssh:/root/.ssh:ro \
 		-v /etc/passwd:/etc/passwd:ro \
 		-v /etc/group:/etc/group:ro \
-		composer/composer:php5-alpine --ignore-platform-reqs $@
+		composer/composer:php5-alpine $PARAM_FIRST $@
 }
 
 ### curlt            Run cURL through Tor
@@ -328,7 +355,7 @@ function phpcs() {
 	docker run \
 		--rm \
 		--name phpcs \
-		--volume $(pwd):/project \
+		-v $(pwd):/project \
 		herloct/phpcs $@
 }
 
