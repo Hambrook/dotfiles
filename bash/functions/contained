@@ -340,10 +340,15 @@ function npm() {
 ##   ~ php index.php
 ##
 function php() {
+	# Alternative: https://hub.docker.com/r/lucor/php7-cli/
+	TAG=7-cli-alpine3.7 #7.0-cli
 	docker run \
+		-it \
 		--rm \
-		--name=php-cli \
-		-v $(pwd):/www matriphe/alpine-php:cli \
+		--name php-cli \
+		-v "$PWD":/usr/src/myapp \
+		-w /usr/src/myapp \
+		php:$TAG \
 		php $@
 }
 
