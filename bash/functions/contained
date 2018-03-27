@@ -276,64 +276,36 @@ function gimp() {
 		jess/gimp
 }
 
-### grunt            Run Grunt
-##   ~ grunt
-##
-function grunt() {
-	TAG=alpine
-	BRANCH=alpine
-
-	if [ "self-update" = "$1" ]; then
-		docker pull mkenney/npm:$TAG
-		wget -nv -O $0 https://raw.githubusercontent.com/mkenney/docker-npm/$BRANCH/bin/grunt && exit 0
-	else
-		docker run --rm -t -i -v $(pwd):/src:rw -v $HOME/.ssh:/home/dev/.ssh:ro mkenney/npm:$TAG /run-as-user /usr/local/bin/grunt $@
-	fi
-}
-
 ### gulp             Run Gulp
 ##   ~ gulp
 ##
 function gulp() {
-	TAG=latest
-	BRANCH=alpine
-
-	if [ "self-update" = "$1" ]; then
-		docker pull mkenney/npm:$TAG
-		wget -nv -O $0 https://raw.githubusercontent.com/mkenney/docker-npm/$BRANCH/bin/gulp && exit 0
-	else
-		docker run --rm -t -i -v $(pwd):/src:rw -v $HOME/.ssh:/home/dev/.ssh:ro mkenney/npm:$TAG /run-as-user /usr/local/bin/gulp $@
-	fi
+	node-tools gulp $@
 }
 
 ### node             Run Node
 ##   ~ node
 ##
 function node() {
-	TAG=alpine
-	BRANCH=alpine
-
-	if [ "self-update" = "$1" ]; then
-		docker pull mkenney/npm:$TAG
-		wget -nv -O $0 https://raw.githubusercontent.com/mkenney/docker-npm/$BRANCH/bin/node && exit 0
-	else
-		docker run --rm -t -i -v $(pwd):/src:rw -v $HOME/.ssh:/home/dev/.ssh:ro mkenney/npm:$TAG /run-as-user /usr/local/bin/node $@
-	fi
+	node-tools node $@
 }
 
 ### npm              Run NPM
 ##   ~ npm
 ##
 function npm() {
-	TAG=alpine
-	BRANCH=alpine
+	node-tools npm $@
+}
 
-	if [ "self-update" = "$1" ]; then
-		docker pull mkenney/npm:$TAG
-		wget -nv -O $0 https://raw.githubusercontent.com/mkenney/docker-npm/$BRANCH/bin/npm && exit 0
-	else
-		docker run --rm -t -i -v $(pwd):/src:rw -v $HOME/.ssh:/home/dev/.ssh:ro mkenney/npm:$TAG /run-as-user /usr/local/bin/npm $@
-	fi
+### node-tools       Run container with Gulp, NPM, Grunt, etc
+##   ~ node-tools
+##
+function node-tools() {
+	docker run \
+		--rm \
+		-it \
+		-v $(pwd):/workspace:rw \
+		monostream/nodejs-gulp-bower $@
 }
 
 ### php              Run PHP CLI
