@@ -35,15 +35,7 @@ aws(){
 ##   ~ bower
 ##
 function bower() {
-	TAG=alpine
-	BRANCH=alpine
-
-	if [ "self-update" = "$1" ]; then
-		docker pull mkenney/npm:$TAG
-		wget -nv -O $0 https://raw.githubusercontent.com/mkenney/docker-npm/$BRANCH/bin/bower && exit 0
-	else
-		docker run --rm -t -i -v $(pwd):/src:rw -v $HOME/.ssh:/home/dev/.ssh:ro mkenney/npm:$TAG /run-as-user /usr/local/bin/bower $@
-	fi
+	node-tools bower $@
 }
 
 ### chrome           Run Google Chrome
