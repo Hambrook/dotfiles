@@ -17,6 +17,13 @@ alias eh="sudo nano /etc/hosts"
 ##
 alias ra=". ~/.profile"
 
+# FUNCSOURCE
+### funcsource       Show the source/command of a function
+##
+function funcsource() {
+	declare -f "${1}"
+}
+
 ### slugify          Make a valid URL slug or git branch name from potentially invalid text
 ##   ~ slugify branch name here // branch-name-here
 ##
