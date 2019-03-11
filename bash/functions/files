@@ -20,6 +20,13 @@ function dataurl() {
 	echo "data:${mimeType};base64,$(openssl base64 -in "${1}" | tr -d '\n')"
 }
 
+# RECENTLY MODIFIED FILES
+### recentfiles      Show recently modified files
+##
+function recentfiles() {
+	find "${1}" -type f -printf '%TY-%Tm-%Td %TT %p\n' | sort -r | less
+}
+
 # RSYNC
 ### rs               Rsync with default flags
 ##   ~ rs <source> <destination>
