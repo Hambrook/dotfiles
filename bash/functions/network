@@ -18,9 +18,9 @@ alias onlanq="arp -a"
 ##
 alias lip="ifconfig | sed -En 's/127.0.0.1//;s/.*Loopback.*//;s/(^[^ ]+) +Link encap.*/\n\1/p;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p'"
 
-### pip              Show public IP address
+### pubip            Show public IP address
 ##
-alias pip="curl ipecho.net/plain ; echo"
+alias pubip="curl ipecho.net/plain ; echo"
 
 # PING FIVE TIMES ONLY
 ### ping5            Ping five times only
